@@ -3,20 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>#newArticle | Hexo</title>
+  <title>hexo+github个人博客搭建 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+  <meta name="description" content="准备前提：安装好Node，安装好git，并有github账号
+Node和Git都安装好后，可执行如下命令安装hexo：    npm install -g hexo初始化然后，执行init命令初始化hexo到你指定的目录，我是直接cd到目标目录执行hexo init的。命令：    hexo init好啦，至此，全部安装工作已经完成！本地启动：hexo server后访问localhost:400">
 <meta property="og:type" content="article">
-<meta property="og:title" content="#newArticle">
+<meta property="og:title" content="hexo+github个人博客搭建">
 <meta property="og:url" content="http://kusokaiser.github.io/2016/03/02/newArticle/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description">
+<meta property="og:description" content="准备前提：安装好Node，安装好git，并有github账号
+Node和Git都安装好后，可执行如下命令安装hexo：    npm install -g hexo初始化然后，执行init命令初始化hexo到你指定的目录，我是直接cd到目标目录执行hexo init的。命令：    hexo init好啦，至此，全部安装工作已经完成！本地启动：hexo server后访问localhost:400">
 <meta property="og:image" content="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg">
 <meta property="og:image" content="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg">
-<meta property="og:updated_time" content="2016-03-02T02:44:04.311Z">
+<meta property="og:updated_time" content="2016-03-02T08:17:43.663Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="#newArticle">
-<meta name="twitter:description">
+<meta name="twitter:title" content="hexo+github个人博客搭建">
+<meta name="twitter:description" content="准备前提：安装好Node，安装好git，并有github账号
+Node和Git都安装好后，可执行如下命令安装hexo：    npm install -g hexo初始化然后，执行init命令初始化hexo到你指定的目录，我是直接cd到目标目录执行hexo init的。命令：    hexo init好啦，至此，全部安装工作已经完成！本地启动：hexo server后访问localhost:400">
 <meta name="twitter:image" content="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -69,7 +72,7 @@
         <section id="main"><article id="[post]-newArticle" class="article article-type-[post]" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/03/02/newArticle/" class="article-date">
-  <time datetime="2016-03-02T02:38:50.000Z" itemprop="datePublished">2016-03-02</time>
+  <time datetime="2016-03-02T08:16:50.000Z" itemprop="datePublished">2016-03-02</time>
 </a>
     
   </div>
@@ -78,11 +81,11 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" rel="gallery_cilajdoug0001dkvt0ogjq527">
+      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" rel="gallery_cilakmid20001vkvtz24we9x1">
         <img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" itemprop="image">
       </a>
     
-      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" rel="gallery_cilajdoug0001dkvt0ogjq527">
+      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" rel="gallery_cilakmid20001vkvtz24we9x1">
         <img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" itemprop="image">
       </a>
     
@@ -94,7 +97,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      #newArticle
+      hexo+github个人博客搭建
     </h1>
   
 
@@ -102,11 +105,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>准备前提：安装好Node，安装好git，并有github账号</p>
+<p>Node和Git都安装好后，可执行如下命令安装hexo：<br>    <code>npm install -g hexo</code><br>初始化<br>然后，执行init命令初始化hexo到你指定的目录，我是直接cd到目标目录执行hexo init的。命令：<br>    <code>hexo init</code><br>好啦，至此，全部安装工作已经完成！<br>本地启动：<code>hexo server</code><br>后访问localhost:4000</p>
+<p>配置github：<br>建立与你用户名对应的仓库，仓库名必须为【your_user_name.github.io】，固定写法，然后建立关联，我的blog在本地d:/hexo，hexo是我之前建的东西也全在这里面，有：<br>_config.yml    node_modules    publicsourcedb.json      package.json    scaffolds    themes<br>修改_config.yml中的deploy：<br><code>deploy:
+  type: git
+  repository: https://github.com/kusokaiser/kusokaiser.github.io.git
+  branch: master</code><br>注意：冒号后需加一个空格！！<br>后执行npm install hexo-deployer-git –save命令（如不执行会报error deployer not found错误）<br>最后执行：<br>hexo clean<br>hexo g<br>hexo d<br>生成+部署完成，可访问<a href="http://kusokaiser.github.io来查看更新后的博客" target="_blank" rel="external">http://kusokaiser.github.io来查看更新后的博客</a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/02/newArticle/" data-id="cilajdoug0001dkvt0ogjq527" class="article-share-link">Delen</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/02/newArticle/" data-id="cilakmid20001vkvtz24we9x1" class="article-share-link">Delen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
@@ -171,7 +180,7 @@
       <ul>
         
           <li>
-            <a href="/2016/03/02/newArticle/">#newArticle</a>
+            <a href="/2016/03/02/newArticle/">hexo+github个人博客搭建</a>
           </li>
         
           <li>

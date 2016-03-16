@@ -53,7 +53,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kusokaiser.github.io"></form>
@@ -63,6 +63,39 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-how to build es6 in Webstorm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/16/how to build es6 in Webstorm/" class="article-date">
+  <time datetime="2016-03-16T03:18:38.181Z" itemprop="datePublished">2016-03-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>0.前提：</p>
+<p>安装好NPM，执行<code>npm -g install babel-cli</code>命令，注意，以前是执行<code>npm -g install babel</code>命令，新版本后要求执行<code>npm -g install babel-cli</code>命令。</p>
+<p>1.加入es6语法<br><img src="http://i.imgur.com/EPtr0UK.png" alt=""><br> 配置为<br><img src="http://i.imgur.com/CNuYcgj.png" alt=""><br>配置后，在js文件中写es6语法的语句不会提示错误。</p>
+<p>2.添加file-watcher:<br><img src="http://i.imgur.com/Sbj3Z88.png" alt=""><br>点击右上角+号添加babel，配置窗口如下所示：<br><img src="http://i.imgur.com/zNN78iS.png" alt=""><br>其中file Type一项可以自行配置，如javascript。</p>
+<p>3.在项目目录执行<code>npm install --save-dev babel-preset-es2015</code>，后在项目根路径下新建.babelrc文件，内容为：<br>{<br>  “presets”: [“es2015”]<br>}<br>随后在webstorm中新建.es6文件并添加es6语句，会看到翻译后的.js文件</p>
+<p><img src="http://i.imgur.com/IuaZttI.png" alt=""><br>  翻译后为：<br><img src="http://i.imgur.com/2LPkF6U.png" alt=""></p>
+<p>tips:如何新建不带文件名的.babelrc文件？<br>新建一个.txt文本文件，在其中输入想要加入到.babelrc文件中的内容，然后点击另存为，在弹出的文件名位置，输入”.babelrc”(注意：两边一定要用双引号括起来)，保存即可。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kusokaiser.github.io/2016/03/16/how to build es6 in Webstorm/" data-id="ciluacicp0001iwvtlinxjlua" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="[post]-newArticle" class="article article-type-[post]" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -76,11 +109,11 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" rel="gallery_cilarhwwp00012cvtz86dy902">
+      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" rel="gallery_ciluacice0000iwvtq7tsmynn">
         <img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" itemprop="image">
       </a>
     
-      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" rel="gallery_cilarhwwp00012cvtz86dy902">
+      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" rel="gallery_ciluacice0000iwvtq7tsmynn">
         <img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" itemprop="image">
       </a>
     
@@ -108,7 +141,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/02/newArticle/" data-id="cilarhwwp00012cvtz86dy902" class="article-share-link">Delen</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/02/newArticle/" data-id="ciluacice0000iwvtq7tsmynn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
@@ -155,7 +188,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/02/hello-world/" data-id="cilarhwwk00002cvt88e3x4j6" class="article-share-link">Delen</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/02/hello-world/" data-id="ciluacidf0004iwvtjc6fvi5c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -175,7 +208,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Labels</h3>
+    <h3 class="widget-title">Tags</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
     </div>
@@ -194,7 +227,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archieven</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li></ul>
     </div>
@@ -204,9 +237,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recente berichten</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/03/16/how to build es6 in Webstorm/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2016/03/02/newArticle/">hexo+github个人博客搭建</a>

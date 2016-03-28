@@ -64,6 +64,67 @@
       <div class="outer">
         <section id="main">
   
+    <article id="[post]-python 在不同层级目录import 模块的方法" class="article article-type-[post]" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/28/python 在不同层级目录import 模块的方法/" class="article-date">
+  <time datetime="2016-03-28T07:26:50.000Z" itemprop="datePublished">2016-03-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/28/python 在不同层级目录import 模块的方法/">python 在不同层级目录import 模块的方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、同级目录下的调有"><a href="#一、同级目录下的调有" class="headerlink" title="# 一、同级目录下的调有 #"></a># 一、同级目录下的调有 #</h2><p>程序结构如下：</p>
+<ol>
+<li>– src</li>
+<li>|– mod1.py</li>
+<li>|– test1.py<br>若在程序test1.py中导入模块mod1, 则直接使用</li>
+<li>import mod1</li>
+<li>或</li>
+<li>from mod1 import *;<h2 id="二、调用子目录下的模块"><a href="#二、调用子目录下的模块" class="headerlink" title="# 二、调用子目录下的模块 #"></a># 二、调用子目录下的模块 #</h2>程序结构如下：</li>
+<li>– src</li>
+<li>|– mod1.py</li>
+<li>|– lib</li>
+<li>|    |– mod2.py</li>
+<li>|– test1.py<br>这时看到test1.py和lib目录（即mod2.py的父级目录），如果想在程序test1.py中导入模块mod2.py ，可以在lib件夹中建立空文件<strong>init</strong>.py文件(也可以在该文件中自定义输出模块接口)，然后使用：</li>
+<li>from lib.mod2 import *</li>
+<li>或</li>
+<li>import lib.mod2.<h2 id="三、调用上级目录下的文件"><a href="#三、调用上级目录下的文件" class="headerlink" title="三、调用上级目录下的文件"></a>三、调用上级目录下的文件</h2>程序结构如下：</li>
+<li>– src</li>
+<li>|– mod1.py</li>
+<li>|– lib</li>
+<li>|    |– mod2.py</li>
+<li>|– sub</li>
+<li>|    |– test2.py<br>这里想要实现test2.py调用mod1.py和mod2.py ，做法是我们先跳到src目录下面，直接可以调用mod1，然后在lib上当下建一个空文件<strong>init</strong>.py ，就可以像第二步调用子目录下的模块一样，通过import  lib.mod2进行调用了。具体代码如下：<br>import sys<br>sys.path.append(“..”)<br>import mod1<br>import mod2.mod2</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kusokaiser.github.io/2016/03/28/python 在不同层级目录import 模块的方法/" data-id="cimbo47cw00010ovt2j3j6wzf" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="[post]-how to build es6 in Webstorm" class="article article-type-[post]" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/03/16/how to build es6 in Webstorm/" class="article-date">
@@ -97,7 +158,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/16/how to build es6 in Webstorm/" data-id="ciluap6nm0001k4vtn7w4r3yx" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/16/how to build es6 in Webstorm/" data-id="cimbo47cq00000ovtmxrw11ix" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/es6/">es6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webstorm/">webstorm</a></li></ul>
@@ -121,11 +182,11 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" rel="gallery_ciluap6np0002k4vtp07djtiw">
+      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" rel="gallery_cimbo47d200030ovtpqcymccz">
         <img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" itemprop="image">
       </a>
     
-      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" rel="gallery_ciluap6np0002k4vtp07djtiw">
+      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" rel="gallery_cimbo47d200030ovtpqcymccz">
         <img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" itemprop="image">
       </a>
     
@@ -153,7 +214,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/02/newArticle/" data-id="ciluap6np0002k4vtp07djtiw" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/02/newArticle/" data-id="cimbo47d200030ovtpqcymccz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
@@ -200,7 +261,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/02/hello-world/" data-id="ciluap6ng0000k4vtn1koj28b" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/02/hello-world/" data-id="cimbo47dk000b0ovtmyboumj4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -222,7 +283,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/">webstorm</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/">webstorm</a></li></ul>
     </div>
   </div>
 
@@ -232,7 +293,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/es6/" style="font-size: 10px;">es6</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a>
+      <a href="/tags/es6/" style="font-size: 10px;">es6</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a>
     </div>
   </div>
 
@@ -252,6 +313,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/03/28/python 在不同层级目录import 模块的方法/">python 在不同层级目录import 模块的方法</a>
+          </li>
         
           <li>
             <a href="/2016/03/16/how to build es6 in Webstorm/">webstorm如何配置使用es6</a>

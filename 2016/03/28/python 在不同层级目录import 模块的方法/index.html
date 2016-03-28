@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Kaiser's blog">
 <meta property="og:description" content="一、同级目录下的调有程序结构如下：   – src       |– mod1.py       |– test1.py若在程序test1.py中导入模块mod1, 则直接使用   import mod1   或   from mod1 import *;
 二、调用子目录下的模块程序结构如下：   – src       |– mod1.py       |– lib       |– mod2.">
-<meta property="og:updated_time" content="2016-03-28T11:23:17.996Z">
+<meta property="og:updated_time" content="2016-03-28T11:28:32.043Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python 在不同层级目录import 模块的方法">
 <meta name="twitter:description" content="一、同级目录下的调有程序结构如下：   – src       |– mod1.py       |– test1.py若在程序test1.py中导入模块mod1, 则直接使用   import mod1   或   from mod1 import *;
@@ -57,7 +57,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kusokaiser.github.io"></form>
@@ -90,12 +90,12 @@
       
         <h2 id="一、同级目录下的调有"><a href="#一、同级目录下的调有" class="headerlink" title="一、同级目录下的调有"></a>一、同级目录下的调有</h2><p>程序结构如下：<br>   – src<br>       |– mod1.py<br>       |– test1.py<br>若在程序test1.py中导入模块mod1, 则直接使用<br>   import mod1<br>   或<br>   from mod1 import *;</p>
 <h2 id="二、调用子目录下的模块"><a href="#二、调用子目录下的模块" class="headerlink" title="二、调用子目录下的模块"></a>二、调用子目录下的模块</h2><p>程序结构如下：<br>   – src<br>       |– mod1.py<br>       |– lib<br>       |– mod2.py<br>       |– test1.py<br>这时看到test1.py和lib目录（即mod2.py的父级目录），如果想在程序test1.py中导入模块mod2.py ，可以在lib件夹中建立空文件<strong>init</strong>.py文件(也可以在该文件中自定义输出模块接口)，然后使用：<br>  from lib.mod2 import *<br>  或<br>  import lib.mod2.</p>
-<h2 id="三、调用上级目录下的文件"><a href="#三、调用上级目录下的文件" class="headerlink" title="三、调用上级目录下的文件"></a>三、调用上级目录下的文件</h2><p>程序结构如下：<br>  – src<br>       |– mod1.py<br>       |– lib<br>       |– mod2.py<br>       |– sub<br>       |– test2.py<br>这里想要实现test2.py调用mod1.py和mod2.py ，做法是我们先跳到src目录下面，直接可以调用mod1，然后在lib上当下建一个空文件<strong>init</strong>.py ，就可以像第二步调用子目录下的模块一样，通过import  lib.mod2进行调用了。具体代码如下：<br><code>import sys</code><br><code>sys.path.append(&quot;..&quot;)</code><br><code>import mod1</code><br><code>import mod2.mod2</code></p>
+<h2 id="三、调用上级目录下的文件"><a href="#三、调用上级目录下的文件" class="headerlink" title="三、调用上级目录下的文件"></a>三、调用上级目录下的文件</h2><p>程序结构如下：<br>  – src<br>       |– mod1.py<br>       |– lib<br>       |– mod2.py<br>       |– sub<br>       |– test2.py<br>这里想要实现test2.py调用mod1.py和mod2.py ，做法是我们先跳到src目录下面，直接可以调用mod1，然后在lib上当下建一个空文件<strong>init</strong>.py ，就可以像第二步调用子目录下的模块一样，通过import  lib.mod2进行调用了。具体代码如下：<br>1.<code>import sys</code><br>2.<code>sys.path.append(&quot;..&quot;)</code><br>3.<code>import mod1</code><br>4.<code>import mod2.mod2</code></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/28/python 在不同层级目录import 模块的方法/" data-id="cimbwp48h0004y0vt2mihz6e4" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/28/python 在不同层级目录import 模块的方法/" data-id="cimbwvqn80002dovt89paolgq" class="article-share-link">Delen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
@@ -108,7 +108,7 @@
   
   
     <a href="/2016/03/16/how to build es6 in Webstorm/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
+      <strong class="article-nav-caption">Ouder</strong>
       <div class="article-nav-title">webstorm如何配置使用es6</div>
     </a>
   
@@ -145,7 +145,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">Labels</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/">webstorm</a></li></ul>
     </div>
@@ -164,7 +164,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archieven</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li></ul>
     </div>
@@ -174,7 +174,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Recente berichten</h3>
     <div class="widget">
       <ul>
         

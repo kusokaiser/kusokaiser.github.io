@@ -3,34 +3,36 @@
 <head>
   <meta charset="utf-8">
   
-  <title>webstorm如何配置使用es6 | Kaiser&#39;s blog</title>
+  <title>windows下搭建react-native开发环境 | Kaiser&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="0.前提：
-安装好NPM，执行npm -g install babel-cli命令，注意，以前是执行npm -g install babel命令，新版本后要求执行npm -g install babel-cli命令。
-1.加入es6语法 配置为配置后，在js文件中写es6语法的语句不会提示错误。
-2.添加file-watcher:点击右上角+号添加babel，配置窗口如下所示：其中file Typ">
+安装好NPM，git，node，jdk
+1.安装android SDK（地址：http://developer.android.com/sdk/index.html）可以单独安装sdk，也可以下载安装android studio，会一并安装好sdk（推荐后者）
+2.安装react-native命令行工具npm install -g react-native-cli
+3.创建项目目录（如">
 <meta property="og:type" content="article">
-<meta property="og:title" content="webstorm如何配置使用es6">
-<meta property="og:url" content="http://kusokaiser.github.io/2016/03/16/how to build es6 in Webstorm/index.html">
+<meta property="og:title" content="windows下搭建react-native开发环境">
+<meta property="og:url" content="http://kusokaiser.github.io/2016/04/07/windows下搭建react-native开发环境/index.html">
 <meta property="og:site_name" content="Kaiser's blog">
 <meta property="og:description" content="0.前提：
-安装好NPM，执行npm -g install babel-cli命令，注意，以前是执行npm -g install babel命令，新版本后要求执行npm -g install babel-cli命令。
-1.加入es6语法 配置为配置后，在js文件中写es6语法的语句不会提示错误。
-2.添加file-watcher:点击右上角+号添加babel，配置窗口如下所示：其中file Typ">
-<meta property="og:image" content="http://i.imgur.com/EPtr0UK.png">
-<meta property="og:image" content="http://i.imgur.com/CNuYcgj.png">
-<meta property="og:image" content="http://i.imgur.com/Sbj3Z88.png">
-<meta property="og:image" content="http://i.imgur.com/zNN78iS.png">
-<meta property="og:image" content="http://i.imgur.com/IuaZttI.png">
-<meta property="og:image" content="http://i.imgur.com/2LPkF6U.png">
-<meta property="og:updated_time" content="2016-03-16T03:34:51.633Z">
+安装好NPM，git，node，jdk
+1.安装android SDK（地址：http://developer.android.com/sdk/index.html）可以单独安装sdk，也可以下载安装android studio，会一并安装好sdk（推荐后者）
+2.安装react-native命令行工具npm install -g react-native-cli
+3.创建项目目录（如">
+<meta property="og:image" content="http://i.imgur.com/K6txYyW.png">
+<meta property="og:image" content="http://i.imgur.com/XCJ7LMf.png">
+<meta property="og:image" content="http://i.imgur.com/pqI7fnE.jpg">
+<meta property="og:image" content="http://i.imgur.com/XbxxxoB.png">
+<meta property="og:image" content="http://i.imgur.com/RVJm2wD.png">
+<meta property="og:updated_time" content="2016-04-07T07:36:17.099Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="webstorm如何配置使用es6">
+<meta name="twitter:title" content="windows下搭建react-native开发环境">
 <meta name="twitter:description" content="0.前提：
-安装好NPM，执行npm -g install babel-cli命令，注意，以前是执行npm -g install babel命令，新版本后要求执行npm -g install babel-cli命令。
-1.加入es6语法 配置为配置后，在js文件中写es6语法的语句不会提示错误。
-2.添加file-watcher:点击右上角+号添加babel，配置窗口如下所示：其中file Typ">
-<meta name="twitter:image" content="http://i.imgur.com/EPtr0UK.png">
+安装好NPM，git，node，jdk
+1.安装android SDK（地址：http://developer.android.com/sdk/index.html）可以单独安装sdk，也可以下载安装android studio，会一并安装好sdk（推荐后者）
+2.安装react-native命令行工具npm install -g react-native-cli
+3.创建项目目录（如">
+<meta name="twitter:image" content="http://i.imgur.com/K6txYyW.png">
   
     <link rel="alternate" href="/atom.xml" title="Kaiser&#39;s blog" type="application/atom+xml">
   
@@ -79,10 +81,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="[post]-how to build es6 in Webstorm" class="article article-type-[post]" itemscope itemprop="blogPost">
+        <section id="main"><article id="[post]-windows下搭建react-native开发环境" class="article article-type-[post]" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/03/16/how to build es6 in Webstorm/" class="article-date">
-  <time datetime="2016-03-16T03:16:50.000Z" itemprop="datePublished">2016-03-16</time>
+    <a href="/2016/04/07/windows下搭建react-native开发环境/" class="article-date">
+  <time datetime="2016-04-07T07:16:50.000Z" itemprop="datePublished">2016-04-07</time>
 </a>
     
   </div>
@@ -93,7 +95,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      webstorm如何配置使用es6
+      windows下搭建react-native开发环境
     </h1>
   
 
@@ -102,17 +104,20 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>0.前提：</p>
-<p>安装好NPM，执行<code>npm -g install babel-cli</code>命令，注意，以前是执行<code>npm -g install babel</code>命令，新版本后要求执行<code>npm -g install babel-cli</code>命令。</p>
-<p>1.加入es6语法<br><img src="http://i.imgur.com/EPtr0UK.png" alt=""><br> 配置为<br><img src="http://i.imgur.com/CNuYcgj.png" alt=""><br>配置后，在js文件中写es6语法的语句不会提示错误。</p>
-<p>2.添加file-watcher:<br><img src="http://i.imgur.com/Sbj3Z88.png" alt=""><br>点击右上角+号添加babel，配置窗口如下所示：<br><img src="http://i.imgur.com/zNN78iS.png" alt=""><br>其中file Type一项可以自行配置，如javascript。</p>
-<p>3.在项目目录执行<code>npm install --save-dev babel-preset-es2015</code>，后在项目根路径下新建.babelrc文件，内容为：<br>{<br>  “presets”: [“es2015”]<br>}<br>随后在webstorm中新建.es6文件并添加es6语句，会看到翻译后的.js文件</p>
-<p><img src="http://i.imgur.com/IuaZttI.png" alt=""><br>  翻译后为：<br><img src="http://i.imgur.com/2LPkF6U.png" alt=""></p>
-<p>tips:如何新建不带文件名的.babelrc文件？<br>新建一个.txt文本文件，在其中输入想要加入到.babelrc文件中的内容，然后点击另存为，在弹出的文件名位置，输入”.babelrc”(注意：两边一定要用双引号括起来)，保存即可。</p>
+<p>安装好NPM，git，node，jdk</p>
+<p>1.安装android SDK（地址：<a href="http://developer.android.com/sdk/index.html" target="_blank" rel="external">http://developer.android.com/sdk/index.html</a>）<br>可以单独安装sdk，也可以下载安装android studio，会一并安装好sdk（推荐后者）</p>
+<p>2.安装react-native命令行工具<br><code>npm install -g react-native-cli</code></p>
+<p>3.创建项目目录（如Myreact)，进入目录后执行：<br><code>react-native init Myreact</code><br>此步需要等待较长时间，如报错，可先执行<code>npm start</code>，再执行此命令</p>
+<p>4.运行packager：<br>react-native start<br>如果此命令找不到或失败，也可进入Myreact\react native\MyProject\node_modules\react-native\local-cli下执行：<br>node cli.js start（原因：进入Myreact\react native\MyProject\node_modules\react-native\packager目录下打开packager.sh文件，会看到如下内容：<br><img src="http://i.imgur.com/K6txYyW.png" alt=""><br>其中最后一行揭示了start命令的执行位置<br>运行packager时可能会遇到的问题：<br>a.ERROR Watcher took too long to load：请尝试修改node_modules/react-native/packager/react-packager/src/FileWatcher/index.js，将其中的MAX_WAIT_TIME 从25000改为更大的值（单位是毫秒）<br>b.TransformError: /Users/…/node_modules/alt/lib/index.js: [BABEL] /Users/…/node_modules/alt/lib/index.js: Unknown option: /Users/…/node_modules/alt/.babelrc.stage，将错误路径中的.babelrc文件删除即可。<br>成功运行packager后，可以在<a href="http://localhost:8081/index.android.bundle?platform=android" target="_blank" rel="external">http://localhost:8081/index.android.bundle?platform=android</a>这个地址中访问到类似如下内容：<br><img src="http://i.imgur.com/XCJ7LMf.png" alt=""><br>之后保持启动packager的cmd窗口不要关闭</p>
+<p>5.安装安卓模拟器，推荐genymotion（<a href="https://www.genymotion.com/" target="_blank" rel="external">https://www.genymotion.com/</a>）对个人用户是免费的，在genymotion中添加一个模拟设备，之后在settings中设置模拟器的sdk为当前环境的sdk地址<br><img src="http://i.imgur.com/pqI7fnE.jpg" alt=""></p>
+<p>6.启动设备，点击start启动模拟器，启动中可能会报错，提示intel HAXM相关错误信息，此时需要在sdk目录下\extras\intel\Hardware_Accelerated_Execution_Manager路径中安装intelhaxm-android，安装过程中，又有可能提示电脑没有开启vt-x功能，此时需要重启电脑并进入bios中开启对应的功能，一般情况是在advanced下的Intel  Virtualization Technology功能开启为enabled即可，随后再安装intelhaxm-android成功，之后可以成功启动安卓模拟器了</p>
+<p>7.启动模拟器后再进入工程目录，即Myreact/下执行 react-native run-android命令，等待片刻，会在刚才启动的模拟器中看到如下画面：<br><img src="http://i.imgur.com/XbxxxoB.png" alt=""></p>
+<p>8.修改其中显示内容，只需修改index.android.js文件，随后在menu中点击ReloadJS<br><img src="http://i.imgur.com/RVJm2wD.png" alt=""><br>如过程中遇到其他错误请参考<a href="http://www.cnblogs.com/meteoric_cry/p/4874517.html" target="_blank" rel="external">http://www.cnblogs.com/meteoric_cry/p/4874517.html</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/16/how to build es6 in Webstorm/" data-id="cimpyzvea0000kgvtgordusol" class="article-share-link">Delen</a>
+      <a data-url="http://kusokaiser.github.io/2016/04/07/windows下搭建react-native开发环境/" data-id="cimpyzvex0003kgvt7haohcws" class="article-share-link">Delen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/es6/">es6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webstorm/">webstorm</a></li></ul>
@@ -123,19 +128,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/03/28/python 在不同层级目录import 模块的方法/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Nieuwer</strong>
-      <div class="article-nav-title">
-        
-          python 在不同层级目录import 模块的方法
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/03/02/newArticle/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/03/28/python 在不同层级目录import 模块的方法/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Ouder</strong>
-      <div class="article-nav-title">hexo+github个人博客搭建</div>
+      <div class="article-nav-title">python 在不同层级目录import 模块的方法</div>
     </a>
   
 </nav>
@@ -146,7 +142,7 @@
 
   <section id="comments">
     <!-- ��˵���ۿ� start -->
-    <div class="ds-thread" data-thread-key="[post]-how to build es6 in Webstorm" data-title="webstorm如何配置使用es6" data-url="http://kusokaiser.github.io/2016/03/16/how to build es6 in Webstorm/"></div>
+    <div class="ds-thread" data-thread-key="[post]-windows下搭建react-native开发环境" data-title="windows下搭建react-native开发环境" data-url="http://kusokaiser.github.io/2016/04/07/windows下搭建react-native开发环境/"></div>
     <!-- ��˵���ۿ� end -->
     <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
     <script type="text/javascript">

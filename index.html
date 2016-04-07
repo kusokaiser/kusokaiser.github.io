@@ -64,6 +64,224 @@
       <div class="outer">
         <section id="main">
   
+    <article id="[post]-RabbitMQ" class="article article-type-[post]" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/07/RabbitMQ/" class="article-date">
+  <time datetime="2016-04-07T08:16:50.000Z" itemprop="datePublished">2016-04-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/07/RabbitMQ/">RabbitMQ相关笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>RabbitMQ的几种应用场景;<br><a href="http://blog.csdn.net/zyz511919766/article/details/41946521" target="_blank" rel="external">http://blog.csdn.net/zyz511919766/article/details/41946521</a></p>
+<p>实际开发过程中，采用的是<br><img src="http://i.imgur.com/odSK981.jpg" alt=""></p>
+<p>开发的系统为secfile，预先在RabbitMQ服务端定义好了“secfile”队列，consumer指定用secfile队列来接收消息：<br>`</p>
+<pre><code>#!/usr/bin/env python
+#coding:utf-8
+import requests
+import logging
+import pika
+import json
+import os
+os.environ.setdefault(&quot;DJANGO_SETTINGS_MODULE&quot;,     &quot;seahub.settings&quot;)
+import sys
+sys.path.append(&quot;../..&quot;)
+from seahub.settings import PIKA_CREDENTIALS_ID,     PIKA_CREDENTIALS_PASSWORD,     PIKA_CONNECTION_ADDR,PIKA_CONNECTION_PORT,     PIKA_CONNECTION_NAME
+from OauthDataOp import OauthDataOp
+
+oauthdataop =OauthDataOp()
+
+def callback(ch, method, properties, body):
+print &quot; [x] Received %s&quot; % (body,)
+action=json.loads(body)[&apos;action&apos;]
+print &quot; [x] ACTION %s&quot; % (action)
+
+if action==&apos;CreateCompany&apos;:
+    name=json.loads(body)[&apos;name&apos;]
+    company_id=json.loads(body)[&apos;company_id&apos;]
+    email=json.loads(body)[&apos;email&apos;]
+    phone=json.loads(body)[&apos;phone&apos;]
+    address=json.loads(body)[&apos;address&apos;]
+    applier_email=json.loads(body)[&apos;applier_email&apos;]
+    result=oauthdataop.company_create(name,company_id,email,phone,address,applier_email)
+    print &apos;CreateCompany&apos;
+    print result[&apos;status&apos;]
+
+
+elif action==&apos;AddToCompany&apos; or action==&apos;ExitCompany&apos;:
+    email=json.loads(body)[&apos;email&apos;]
+    company_id=json.loads(body)[&apos;company_id&apos;]
+    company_name=json.loads(body)[&apos;company_name&apos;]
+    if action==&quot;AddToCompany&quot;:
+        result=oauthdataop.user_joincom(email,company_id,company_name)
+        print &apos;AddToCompany&apos;
+        print result[&apos;status&apos;]
+    else:
+        result=oauthdataop.user_quitcom(email,company_id,company_name)
+        print &apos;ExitCompany&apos;
+        print result[&apos;status&apos;]
+    #return result
+elif action==&apos;ApplyAdmin&apos;:
+    company_id=json.loads(body)[&apos;company_id&apos;]
+    company_name=json.loads(body)[&apos;company_name&apos;]
+    applier_email=json.loads(body)[&apos;applier_email&apos;]
+    result=oauthdataop.user_beadmin(company_id,company_name,applier_email)
+    print &apos;ApplyAdmin&apos;
+    print result[&apos;status&apos;]
+    #return result
+
+
+elif action==&apos;CreateProjectGroup&apos;:
+    email=json.loads(body)[&apos;email&apos;]
+    project_group_id=json.loads(body)[&apos;project_group_id&apos;]
+    company_id=json.loads(body)[&apos;company_id&apos;]
+    company_name=json.loads(body)[&apos;company_name&apos;]
+    project_group_name=json.loads(body)[&apos;project_group_name&apos;]
+    project_group_Enname=json.loads(body)[&apos;project_group_Enname&apos;]
+    result=oauthdataop.group_create(email,project_group_id,project_group_name,company_id,company_name)
+    print &apos;CreateProjectGroup&apos;
+    print result[&apos;status&apos;]
+    #return result
+
+
+elif action==&apos;DestributeMember&apos;:
+    company_id=json.loads(body)[&apos;company_id&apos;]
+    project_group_id=json.loads(body)[&apos;project_group_id&apos;]
+    company_name=json.loads(body)[&apos;company_name&apos;]
+    project_group_name=json.loads(body)[&apos;project_group_name&apos;]
+    employee_email=json.loads(body)[&apos;employee_email&apos;]
+    result=oauthdataop.user_joingro(employee_email,project_group_id,project_group_name,company_id,company_name)
+    print &apos;DestributeMember&apos;
+    print result[&apos;status&apos;]
+    #return result
+
+
+elif action==&apos;DeleteMember&apos;:
+    email=json.loads(body)[&apos;email&apos;]
+    company_name=json.loads(body)[&apos;company_name&apos;]
+    project_group_name=json.loads(body)[&apos;project_group_name&apos;]
+    company_id=json.loads(body)[&apos;company_id&apos;]
+    project_group_id=json.loads(body)[&apos;project_group_id&apos;]
+    result=oauthdataop.user_quitgro(email,project_group_id,project_group_name,company_id,company_name)
+    print &apos;DeleteMember&apos;
+    print result[&apos;status&apos;]
+    #return result
+
+
+elif action==&apos;SetLeader&apos; or action==&apos;CancelLeader&apos;:
+    company_id=json.loads(body)[&apos;company_id&apos;]
+    email=json.loads(body)[&apos;email&apos;]
+    group_id=json.loads(body)[&apos;group_id&apos;]
+    projectGroupName=json.loads(body)[&apos;projectGroupName&apos;]
+    if action==&apos;SetLeader&apos;:
+        result=oauthdataop.set_groleader(email,group_id,projectGroupName,company_id)
+        print &apos;SetLeader&apos;
+        print result[&apos;status&apos;]
+    else:
+        result=oauthdataop.cancel_groleader(email,group_id,projectGroupName,company_id)
+        print &apos;CancelLeader&apos;
+        print result[&apos;status&apos;]
+    #return result
+
+
+elif action==&apos;RegistUser&apos;:
+    user_name=json.loads(body)[&apos;user_name&apos;]
+    user_email=json.loads(body)[&apos;user_email&apos;]
+    result=oauthdataop.user_register(user_name,user_email)
+    print &apos;RegistUser&apos;
+    print result[&apos;status&apos;]
+    #return result
+
+
+elif action==&apos;UpdateUser&apos;:
+    user_name=json.loads(body)[&apos;user_name&apos;]
+    name=json.loads(body)[&apos;name&apos;]
+    user_email=json.loads(body)[&apos;user_email&apos;]
+    user_phone=json.loads(body)[&apos;user_phone&apos;]
+    user_sex=json.loads(body)[&apos;user_sex&apos;]
+    user_address=json.loads(body)[&apos;user_address&apos;]
+    result=oauthdataop.user_update(user_name,name,user_email)
+    print &apos;UpdateUser&apos;
+    print result[&apos;status&apos;]
+    if result[&apos;status&apos;]==&apos;failed&apos;:
+        print result[&apos;err_msg&apos;]
+    #return result
+
+
+elif action==&apos;UpdateUserFaceImage&apos;:
+    user_name=json.loads(body)[&apos;user_name&apos;]
+    user_email=json.loads(body)[&apos;user_email&apos;]
+    user_portrait=json.loads(body)[&apos;user_portrait&apos;]
+    print &apos;UpdateUserFaceImage&apos;
+
+else:
+    print &quot;undentified action!&quot;
+</code></pre><p>class Rabbitmq(object):</p>
+<pre><code>QUEUE_NAME = &apos;&apos;
+EXCHANGE_NAME = &apos;&apos;
+
+
+
+def __init__(self,queue_name=&apos;secfile&apos;,exchange_name=&apos;demo&apos;):
+    self.QUEUE_NAME=queue_name
+    self.EXCHANGE_NAME=exchange_name
+
+    credentials = pika.PlainCredentials(PIKA_CREDENTIALS_ID, PIKA_CREDENTIALS_PASSWORD)#用户名和密码
+    connection = pika.BlockingConnection(pika.ConnectionParameters(PIKA_CONNECTION_ADDR, PIKA_CONNECTION_PORT, PIKA_CONNECTION_NAME, credentials))
+    global channel
+    channel = connection.channel()
+
+    channel.queue_declare(queue_name, auto_delete=False)
+    channel.queue_bind(queue_name, exchange_name, queue_name)
+    channel.basic_consume(callback, queue_name, consumer_tag=&apos;sec&apos;,no_ack=True)
+
+    #global oauthdataop
+    #oauthdataop=OauthDataOp()
+
+
+def start_monitor(self):
+    print &apos;start monitor&apos;
+    print &apos; [*] Waiting for messages. To exit press CTRL+C&apos;
+    channel.start_consuming()
+
+def pause_monitor(self):
+    print &apos;pause monitor&apos;
+    channel.stop_consuming()
+
+
+def stop_monitor(self):
+    print &apos;stop monitor&apos;
+    channel.queue_delete(self.QUEUE_NAME)
+</code></pre><p>############################以下是测试代码#####################################<br>    if <strong>name</strong>==’<strong>main</strong>‘:<br>    mq=Rabbitmq()<br>    mq.start_monitor()<br>`</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kusokaiser.github.io/2016/04/07/RabbitMQ/" data-id="cimpzjzng0000ggvtpaxfwfni" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rabbitMQ/">rabbitMQ</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="[post]-windows下搭建react-native开发环境" class="article article-type-[post]" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/04/07/windows下搭建react-native开发环境/" class="article-date">
@@ -100,7 +318,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/04/07/windows下搭建react-native开发环境/" data-id="cimpz3ll000016ovt9mgz7xg7" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/04/07/windows下搭建react-native开发环境/" data-id="cimpzjzo80007ggvt8rzx5664" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react-native/">react-native</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/移动web/">移动web</a></li></ul>
@@ -141,7 +359,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/28/python 在不同层级目录import 模块的方法/" data-id="cimpz3lle00056ovt6kd37tu9" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/28/python 在不同层级目录import 模块的方法/" data-id="cimpzjzo50006ggvtnpw28l39" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
@@ -186,7 +404,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/16/how to build es6 in Webstorm/" data-id="cimpz3llb00046ovtex2x442w" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/16/how to build es6 in Webstorm/" data-id="cimpzjznt0001ggvteynjuu47" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/es6/">es6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webstorm/">webstorm</a></li></ul>
@@ -210,11 +428,11 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" rel="gallery_cimpz3ll400026ovt3i9jeflp">
+      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" rel="gallery_cimpzjzo30004ggvte9lq1kpg">
         <img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" itemprop="image">
       </a>
     
-      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" rel="gallery_cimpz3ll400026ovt3i9jeflp">
+      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" rel="gallery_cimpzjzo30004ggvte9lq1kpg">
         <img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" itemprop="image">
       </a>
     
@@ -242,7 +460,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/02/newArticle/" data-id="cimpz3ll400026ovt3i9jeflp" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/02/newArticle/" data-id="cimpzjzo30004ggvte9lq1kpg" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
@@ -289,7 +507,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/02/hello-world/" data-id="cimpz3lku00006ovto6sooo0t" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/02/hello-world/" data-id="cimpzjzo10003ggvtk3c60wv7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -311,7 +529,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react-native/">react-native</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移动web/">移动web</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rabbitMQ/">rabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react-native/">react-native</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移动web/">移动web</a></li></ul>
     </div>
   </div>
 
@@ -321,7 +539,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/es6/" style="font-size: 10px;">es6</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/react-native/" style="font-size: 10px;">react-native</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/移动web/" style="font-size: 10px;">移动web</a>
+      <a href="/tags/es6/" style="font-size: 10px;">es6</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/rabbitMQ/" style="font-size: 10px;">rabbitMQ</a> <a href="/tags/react-native/" style="font-size: 10px;">react-native</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/移动web/" style="font-size: 10px;">移动web</a>
     </div>
   </div>
 
@@ -343,6 +561,10 @@
       <ul>
         
           <li>
+            <a href="/2016/04/07/RabbitMQ/">RabbitMQ相关笔记</a>
+          </li>
+        
+          <li>
             <a href="/2016/04/07/windows下搭建react-native开发环境/">windows下搭建react-native开发环境</a>
           </li>
         
@@ -356,10 +578,6 @@
         
           <li>
             <a href="/2016/03/02/newArticle/">hexo+github个人博客搭建</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/02/hello-world/">Hello World</a>
           </li>
         
       </ul>

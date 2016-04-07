@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>RabbitMQ相关笔记 | Kaiser&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="RabbitMQ的几种应用场景;http://blog.csdn.net/zyz511919766/article/details/41946521
+实际开发过程中，采用的是
+开发的系统为secfile，预先在RabbitMQ服务端定义好了“secfile”队列，consumer指定用secfile队列来接收消息：`
+#!/usr/bin/env python
+#coding:utf-8
+impo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMQ相关笔记">
+<meta property="og:url" content="http://kusokaiser.github.io/2016/04/07/RabbitMQ/index.html">
+<meta property="og:site_name" content="Kaiser's blog">
+<meta property="og:description" content="RabbitMQ的几种应用场景;http://blog.csdn.net/zyz511919766/article/details/41946521
+实际开发过程中，采用的是
+开发的系统为secfile，预先在RabbitMQ服务端定义好了“secfile”队列，consumer指定用secfile队列来接收消息：`
+#!/usr/bin/env python
+#coding:utf-8
+impo">
+<meta property="og:image" content="http://i.imgur.com/odSK981.jpg">
+<meta property="og:updated_time" content="2016-04-07T07:49:37.375Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RabbitMQ相关笔记">
+<meta name="twitter:description" content="RabbitMQ的几种应用场景;http://blog.csdn.net/zyz511919766/article/details/41946521
+实际开发过程中，采用的是
+开发的系统为secfile，预先在RabbitMQ服务端定义好了“secfile”队列，consumer指定用secfile队列来接收消息：`
+#!/usr/bin/env python
+#coding:utf-8
+impo">
+<meta name="twitter:image" content="http://i.imgur.com/odSK981.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Kaiser&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Kaiser&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kusokaiser.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="[post]-RabbitMQ" class="article article-type-[post]" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/07/RabbitMQ/" class="article-date">
+  <time datetime="2016-04-07T08:16:50.000Z" itemprop="datePublished">2016-04-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      RabbitMQ相关笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>RabbitMQ的几种应用场景;<br><a href="http://blog.csdn.net/zyz511919766/article/details/41946521" target="_blank" rel="external">http://blog.csdn.net/zyz511919766/article/details/41946521</a></p>
+<p>实际开发过程中，采用的是<br><img src="http://i.imgur.com/odSK981.jpg" alt=""></p>
+<p>开发的系统为secfile，预先在RabbitMQ服务端定义好了“secfile”队列，consumer指定用secfile队列来接收消息：<br>`</p>
+<pre><code>#!/usr/bin/env python
+#coding:utf-8
+import requests
+import logging
+import pika
+import json
+import os
+os.environ.setdefault(&quot;DJANGO_SETTINGS_MODULE&quot;,     &quot;seahub.settings&quot;)
+import sys
+sys.path.append(&quot;../..&quot;)
+from seahub.settings import PIKA_CREDENTIALS_ID,     PIKA_CREDENTIALS_PASSWORD,     PIKA_CONNECTION_ADDR,PIKA_CONNECTION_PORT,     PIKA_CONNECTION_NAME
+from OauthDataOp import OauthDataOp
+
+oauthdataop =OauthDataOp()
+
+def callback(ch, method, properties, body):
+print &quot; [x] Received %s&quot; % (body,)
+action=json.loads(body)[&apos;action&apos;]
+print &quot; [x] ACTION %s&quot; % (action)
+
+if action==&apos;CreateCompany&apos;:
+    name=json.loads(body)[&apos;name&apos;]
+    company_id=json.loads(body)[&apos;company_id&apos;]
+    email=json.loads(body)[&apos;email&apos;]
+    phone=json.loads(body)[&apos;phone&apos;]
+    address=json.loads(body)[&apos;address&apos;]
+    applier_email=json.loads(body)[&apos;applier_email&apos;]
+    result=oauthdataop.company_create(name,company_id,email,phone,address,applier_email)
+    print &apos;CreateCompany&apos;
+    print result[&apos;status&apos;]
+
+
+elif action==&apos;AddToCompany&apos; or action==&apos;ExitCompany&apos;:
+    email=json.loads(body)[&apos;email&apos;]
+    company_id=json.loads(body)[&apos;company_id&apos;]
+    company_name=json.loads(body)[&apos;company_name&apos;]
+    if action==&quot;AddToCompany&quot;:
+        result=oauthdataop.user_joincom(email,company_id,company_name)
+        print &apos;AddToCompany&apos;
+        print result[&apos;status&apos;]
+    else:
+        result=oauthdataop.user_quitcom(email,company_id,company_name)
+        print &apos;ExitCompany&apos;
+        print result[&apos;status&apos;]
+    #return result
+elif action==&apos;ApplyAdmin&apos;:
+    company_id=json.loads(body)[&apos;company_id&apos;]
+    company_name=json.loads(body)[&apos;company_name&apos;]
+    applier_email=json.loads(body)[&apos;applier_email&apos;]
+    result=oauthdataop.user_beadmin(company_id,company_name,applier_email)
+    print &apos;ApplyAdmin&apos;
+    print result[&apos;status&apos;]
+    #return result
+
+
+elif action==&apos;CreateProjectGroup&apos;:
+    email=json.loads(body)[&apos;email&apos;]
+    project_group_id=json.loads(body)[&apos;project_group_id&apos;]
+    company_id=json.loads(body)[&apos;company_id&apos;]
+    company_name=json.loads(body)[&apos;company_name&apos;]
+    project_group_name=json.loads(body)[&apos;project_group_name&apos;]
+    project_group_Enname=json.loads(body)[&apos;project_group_Enname&apos;]
+    result=oauthdataop.group_create(email,project_group_id,project_group_name,company_id,company_name)
+    print &apos;CreateProjectGroup&apos;
+    print result[&apos;status&apos;]
+    #return result
+
+
+elif action==&apos;DestributeMember&apos;:
+    company_id=json.loads(body)[&apos;company_id&apos;]
+    project_group_id=json.loads(body)[&apos;project_group_id&apos;]
+    company_name=json.loads(body)[&apos;company_name&apos;]
+    project_group_name=json.loads(body)[&apos;project_group_name&apos;]
+    employee_email=json.loads(body)[&apos;employee_email&apos;]
+    result=oauthdataop.user_joingro(employee_email,project_group_id,project_group_name,company_id,company_name)
+    print &apos;DestributeMember&apos;
+    print result[&apos;status&apos;]
+    #return result
+
+
+elif action==&apos;DeleteMember&apos;:
+    email=json.loads(body)[&apos;email&apos;]
+    company_name=json.loads(body)[&apos;company_name&apos;]
+    project_group_name=json.loads(body)[&apos;project_group_name&apos;]
+    company_id=json.loads(body)[&apos;company_id&apos;]
+    project_group_id=json.loads(body)[&apos;project_group_id&apos;]
+    result=oauthdataop.user_quitgro(email,project_group_id,project_group_name,company_id,company_name)
+    print &apos;DeleteMember&apos;
+    print result[&apos;status&apos;]
+    #return result
+
+
+elif action==&apos;SetLeader&apos; or action==&apos;CancelLeader&apos;:
+    company_id=json.loads(body)[&apos;company_id&apos;]
+    email=json.loads(body)[&apos;email&apos;]
+    group_id=json.loads(body)[&apos;group_id&apos;]
+    projectGroupName=json.loads(body)[&apos;projectGroupName&apos;]
+    if action==&apos;SetLeader&apos;:
+        result=oauthdataop.set_groleader(email,group_id,projectGroupName,company_id)
+        print &apos;SetLeader&apos;
+        print result[&apos;status&apos;]
+    else:
+        result=oauthdataop.cancel_groleader(email,group_id,projectGroupName,company_id)
+        print &apos;CancelLeader&apos;
+        print result[&apos;status&apos;]
+    #return result
+
+
+elif action==&apos;RegistUser&apos;:
+    user_name=json.loads(body)[&apos;user_name&apos;]
+    user_email=json.loads(body)[&apos;user_email&apos;]
+    result=oauthdataop.user_register(user_name,user_email)
+    print &apos;RegistUser&apos;
+    print result[&apos;status&apos;]
+    #return result
+
+
+elif action==&apos;UpdateUser&apos;:
+    user_name=json.loads(body)[&apos;user_name&apos;]
+    name=json.loads(body)[&apos;name&apos;]
+    user_email=json.loads(body)[&apos;user_email&apos;]
+    user_phone=json.loads(body)[&apos;user_phone&apos;]
+    user_sex=json.loads(body)[&apos;user_sex&apos;]
+    user_address=json.loads(body)[&apos;user_address&apos;]
+    result=oauthdataop.user_update(user_name,name,user_email)
+    print &apos;UpdateUser&apos;
+    print result[&apos;status&apos;]
+    if result[&apos;status&apos;]==&apos;failed&apos;:
+        print result[&apos;err_msg&apos;]
+    #return result
+
+
+elif action==&apos;UpdateUserFaceImage&apos;:
+    user_name=json.loads(body)[&apos;user_name&apos;]
+    user_email=json.loads(body)[&apos;user_email&apos;]
+    user_portrait=json.loads(body)[&apos;user_portrait&apos;]
+    print &apos;UpdateUserFaceImage&apos;
+
+else:
+    print &quot;undentified action!&quot;
+</code></pre><p>class Rabbitmq(object):</p>
+<pre><code>QUEUE_NAME = &apos;&apos;
+EXCHANGE_NAME = &apos;&apos;
+
+
+
+def __init__(self,queue_name=&apos;secfile&apos;,exchange_name=&apos;demo&apos;):
+    self.QUEUE_NAME=queue_name
+    self.EXCHANGE_NAME=exchange_name
+
+    credentials = pika.PlainCredentials(PIKA_CREDENTIALS_ID, PIKA_CREDENTIALS_PASSWORD)#用户名和密码
+    connection = pika.BlockingConnection(pika.ConnectionParameters(PIKA_CONNECTION_ADDR, PIKA_CONNECTION_PORT, PIKA_CONNECTION_NAME, credentials))
+    global channel
+    channel = connection.channel()
+
+    channel.queue_declare(queue_name, auto_delete=False)
+    channel.queue_bind(queue_name, exchange_name, queue_name)
+    channel.basic_consume(callback, queue_name, consumer_tag=&apos;sec&apos;,no_ack=True)
+
+    #global oauthdataop
+    #oauthdataop=OauthDataOp()
+
+
+def start_monitor(self):
+    print &apos;start monitor&apos;
+    print &apos; [*] Waiting for messages. To exit press CTRL+C&apos;
+    channel.start_consuming()
+
+def pause_monitor(self):
+    print &apos;pause monitor&apos;
+    channel.stop_consuming()
+
+
+def stop_monitor(self):
+    print &apos;stop monitor&apos;
+    channel.queue_delete(self.QUEUE_NAME)
+</code></pre><p>############################以下是测试代码#####################################<br>    if <strong>name</strong>==’<strong>main</strong>‘:<br>    mq=Rabbitmq()<br>    mq.start_monitor()<br>`</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kusokaiser.github.io/2016/04/07/RabbitMQ/" data-id="cimpzjzng0000ggvtpaxfwfni" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rabbitMQ/">rabbitMQ</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/04/07/windows下搭建react-native开发环境/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">windows下搭建react-native开发环境</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <!-- ��˵���ۿ� start -->
+    <div class="ds-thread" data-thread-key="[post]-RabbitMQ" data-title="RabbitMQ相关笔记" data-url="http://kusokaiser.github.io/2016/04/07/RabbitMQ/"></div>
+    <!-- ��˵���ۿ� end -->
+    <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'kusokaiser'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- ��˵����JS���� end -->
+  </section>
+  </section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rabbitMQ/">rabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react-native/">react-native</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移动web/">移动web</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/es6/" style="font-size: 10px;">es6</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/rabbitMQ/" style="font-size: 10px;">rabbitMQ</a> <a href="/tags/react-native/" style="font-size: 10px;">react-native</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/移动web/" style="font-size: 10px;">移动web</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/04/07/RabbitMQ/">RabbitMQ相关笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/07/windows下搭建react-native开发环境/">windows下搭建react-native开发环境</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/28/python 在不同层级目录import 模块的方法/">python 在不同层级目录import 模块的方法</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/16/how to build es6 in Webstorm/">webstorm如何配置使用es6</a>
+          </li>
+        
+          <li>
+            <a href="/2016/03/02/newArticle/">hexo+github个人博客搭建</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Kuso Kaiser<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

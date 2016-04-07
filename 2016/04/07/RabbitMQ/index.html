@@ -7,30 +7,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="RabbitMQ的几种应用场景;http://blog.csdn.net/zyz511919766/article/details/41946521
 实际开发过程中，采用的是
-开发的系统为secfile，预先在RabbitMQ服务端定义好了“secfile”队列，consumer指定用secfile队列来接收消息：`
+开发的系统为secfile，预先在RabbitMQ服务端定义好了“secfile”队列，consumer指定用secfile队列来接收消息：
 #!/usr/bin/env python
 #coding:utf-8
-impo">
+impor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RabbitMQ相关笔记">
 <meta property="og:url" content="http://kusokaiser.github.io/2016/04/07/RabbitMQ/index.html">
 <meta property="og:site_name" content="Kaiser's blog">
 <meta property="og:description" content="RabbitMQ的几种应用场景;http://blog.csdn.net/zyz511919766/article/details/41946521
 实际开发过程中，采用的是
-开发的系统为secfile，预先在RabbitMQ服务端定义好了“secfile”队列，consumer指定用secfile队列来接收消息：`
+开发的系统为secfile，预先在RabbitMQ服务端定义好了“secfile”队列，consumer指定用secfile队列来接收消息：
 #!/usr/bin/env python
 #coding:utf-8
-impo">
+impor">
 <meta property="og:image" content="http://i.imgur.com/odSK981.jpg">
-<meta property="og:updated_time" content="2016-04-07T07:49:37.375Z">
+<meta property="og:updated_time" content="2016-04-07T07:53:17.828Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RabbitMQ相关笔记">
 <meta name="twitter:description" content="RabbitMQ的几种应用场景;http://blog.csdn.net/zyz511919766/article/details/41946521
 实际开发过程中，采用的是
-开发的系统为secfile，预先在RabbitMQ服务端定义好了“secfile”队列，consumer指定用secfile队列来接收消息：`
+开发的系统为secfile，预先在RabbitMQ服务端定义好了“secfile”队列，consumer指定用secfile队列来接收消息：
 #!/usr/bin/env python
 #coding:utf-8
-impo">
+impor">
 <meta name="twitter:image" content="http://i.imgur.com/odSK981.jpg">
   
     <link rel="alternate" href="/atom.xml" title="Kaiser&#39;s blog" type="application/atom+xml">
@@ -104,7 +104,7 @@ impo">
       
         <p>RabbitMQ的几种应用场景;<br><a href="http://blog.csdn.net/zyz511919766/article/details/41946521" target="_blank" rel="external">http://blog.csdn.net/zyz511919766/article/details/41946521</a></p>
 <p>实际开发过程中，采用的是<br><img src="http://i.imgur.com/odSK981.jpg" alt=""></p>
-<p>开发的系统为secfile，预先在RabbitMQ服务端定义好了“secfile”队列，consumer指定用secfile队列来接收消息：<br>`</p>
+<p>开发的系统为secfile，预先在RabbitMQ服务端定义好了“secfile”队列，consumer指定用secfile队列来接收消息：</p>
 <pre><code>#!/usr/bin/env python
 #coding:utf-8
 import requests
@@ -281,12 +281,12 @@ def pause_monitor(self):
 def stop_monitor(self):
     print &apos;stop monitor&apos;
     channel.queue_delete(self.QUEUE_NAME)
-</code></pre><p>############################以下是测试代码#####################################<br>    if <strong>name</strong>==’<strong>main</strong>‘:<br>    mq=Rabbitmq()<br>    mq.start_monitor()<br>`</p>
+</code></pre><p>############################以下是测试代码#####################################<br>    if <strong>name</strong>==’<strong>main</strong>‘:<br>    mq=Rabbitmq()<br>    mq.start_monitor()</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/04/07/RabbitMQ/" data-id="cimpzjzng0000ggvtpaxfwfni" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/04/07/RabbitMQ/" data-id="cimpzllnh00016cvt8vij9u1q" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rabbitMQ/">rabbitMQ</a></li></ul>

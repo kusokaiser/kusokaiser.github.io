@@ -3,34 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>webstorm如何配置使用es6 | Kaiser&#39;s blog</title>
+  <title>mysql数据库导出和导入 | Kaiser&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="0.前提：
-安装好NPM，执行npm -g install babel-cli命令，注意，以前是执行npm -g install babel命令，新版本后要求执行npm -g install babel-cli命令。
-1.加入es6语法 配置为配置后，在js文件中写es6语法的语句不会提示错误。
-2.添加file-watcher:点击右上角+号添加babel，配置窗口如下所示：其中file Typ">
+  <meta name="description" content="一、命令1.导出：mysqldump -u root（用户名） -p  –password=123456（密码）–database ccnet-db（数据库名） &amp;gt; ccnet-db.sql（.sql类型的导出文件）
+2.导入：首先执行：mysql -uroot -p 根据提示输入密码再&amp;gt;&amp;gt;source 路径/ccnet-db.sql(.sql类型的导出文件)
+二、shell脚本">
 <meta property="og:type" content="article">
-<meta property="og:title" content="webstorm如何配置使用es6">
-<meta property="og:url" content="http://kusokaiser.github.io/2016/03/16/how to build es6 in Webstorm/index.html">
+<meta property="og:title" content="mysql数据库导出和导入">
+<meta property="og:url" content="http://kusokaiser.github.io/2016/05/18/mysql导入和导出/index.html">
 <meta property="og:site_name" content="Kaiser's blog">
-<meta property="og:description" content="0.前提：
-安装好NPM，执行npm -g install babel-cli命令，注意，以前是执行npm -g install babel命令，新版本后要求执行npm -g install babel-cli命令。
-1.加入es6语法 配置为配置后，在js文件中写es6语法的语句不会提示错误。
-2.添加file-watcher:点击右上角+号添加babel，配置窗口如下所示：其中file Typ">
-<meta property="og:image" content="http://i.imgur.com/EPtr0UK.png">
-<meta property="og:image" content="http://i.imgur.com/CNuYcgj.png">
-<meta property="og:image" content="http://i.imgur.com/Sbj3Z88.png">
-<meta property="og:image" content="http://i.imgur.com/zNN78iS.png">
-<meta property="og:image" content="http://i.imgur.com/IuaZttI.png">
-<meta property="og:image" content="http://i.imgur.com/2LPkF6U.png">
-<meta property="og:updated_time" content="2016-03-16T03:34:51.633Z">
+<meta property="og:description" content="一、命令1.导出：mysqldump -u root（用户名） -p  –password=123456（密码）–database ccnet-db（数据库名） &amp;gt; ccnet-db.sql（.sql类型的导出文件）
+2.导入：首先执行：mysql -uroot -p 根据提示输入密码再&amp;gt;&amp;gt;source 路径/ccnet-db.sql(.sql类型的导出文件)
+二、shell脚本">
+<meta property="og:updated_time" content="2016-05-18T09:35:16.629Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="webstorm如何配置使用es6">
-<meta name="twitter:description" content="0.前提：
-安装好NPM，执行npm -g install babel-cli命令，注意，以前是执行npm -g install babel命令，新版本后要求执行npm -g install babel-cli命令。
-1.加入es6语法 配置为配置后，在js文件中写es6语法的语句不会提示错误。
-2.添加file-watcher:点击右上角+号添加babel，配置窗口如下所示：其中file Typ">
-<meta name="twitter:image" content="http://i.imgur.com/EPtr0UK.png">
+<meta name="twitter:title" content="mysql数据库导出和导入">
+<meta name="twitter:description" content="一、命令1.导出：mysqldump -u root（用户名） -p  –password=123456（密码）–database ccnet-db（数据库名） &amp;gt; ccnet-db.sql（.sql类型的导出文件）
+2.导入：首先执行：mysql -uroot -p 根据提示输入密码再&amp;gt;&amp;gt;source 路径/ccnet-db.sql(.sql类型的导出文件)
+二、shell脚本">
   
     <link rel="alternate" href="/atom.xml" title="Kaiser&#39;s blog" type="application/atom+xml">
   
@@ -79,10 +69,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="[post]-how to build es6 in Webstorm" class="article article-type-[post]" itemscope itemprop="blogPost">
+        <section id="main"><article id="[post]-mysql导入和导出" class="article article-type-[post]" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/03/16/how to build es6 in Webstorm/" class="article-date">
-  <time datetime="2016-03-16T03:16:50.000Z" itemprop="datePublished">2016-03-16</time>
+    <a href="/2016/05/18/mysql导入和导出/" class="article-date">
+  <time datetime="2016-05-18T08:16:50.000Z" itemprop="datePublished">2016-05-18</time>
 </a>
     
   </div>
@@ -93,7 +83,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      webstorm如何配置使用es6
+      mysql数据库导出和导入
     </h1>
   
 
@@ -101,21 +91,26 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>0.前提：</p>
-<p>安装好NPM，执行<code>npm -g install babel-cli</code>命令，注意，以前是执行<code>npm -g install babel</code>命令，新版本后要求执行<code>npm -g install babel-cli</code>命令。</p>
-<p>1.加入es6语法<br><img src="http://i.imgur.com/EPtr0UK.png" alt=""><br> 配置为<br><img src="http://i.imgur.com/CNuYcgj.png" alt=""><br>配置后，在js文件中写es6语法的语句不会提示错误。</p>
-<p>2.添加file-watcher:<br><img src="http://i.imgur.com/Sbj3Z88.png" alt=""><br>点击右上角+号添加babel，配置窗口如下所示：<br><img src="http://i.imgur.com/zNN78iS.png" alt=""><br>其中file Type一项可以自行配置，如javascript。</p>
-<p>3.在项目目录执行<code>npm install --save-dev babel-preset-es2015</code>，后在项目根路径下新建.babelrc文件，内容为：<br>{<br>  “presets”: [“es2015”]<br>}<br>随后在webstorm中新建.es6文件并添加es6语句，会看到翻译后的.js文件</p>
-<p><img src="http://i.imgur.com/IuaZttI.png" alt=""><br>  翻译后为：<br><img src="http://i.imgur.com/2LPkF6U.png" alt=""></p>
-<p>tips:如何新建不带文件名的.babelrc文件？<br>新建一个.txt文本文件，在其中输入想要加入到.babelrc文件中的内容，然后点击另存为，在弹出的文件名位置，输入”.babelrc”(注意：两边一定要用双引号括起来)，保存即可。</p>
+        <h1 id="一、命令"><a href="#一、命令" class="headerlink" title="一、命令"></a>一、命令</h1><p>1.导出：<br>mysqldump -u root（用户名） -p  –password=123456（密码）–database ccnet-db（数据库名） &gt; ccnet-db.sql（.sql类型的导出文件）</p>
+<p>2.导入：<br>首先执行：<br>mysql -uroot -p 根据提示输入密码<br>再&gt;&gt;source 路径/ccnet-db.sql(.sql类型的导出文件)</p>
+<h1 id="二、shell脚本"><a href="#二、shell脚本" class="headerlink" title="二、shell脚本"></a>二、shell脚本</h1><p>1.导出<br>新建export.sh<br>chmod +x export.sh<br>文件内容：</p>
+<p>#! /bin/bash<br>mysqldump -u root -p –password=123456 –databases ccnet-db &gt; ccnet-db.sql &amp;&amp; echo “Export database to current dir successfully! Please check the files!”（在文件中写死密码）</p>
+<p>可以将单个数据库导出，也可以将多个数据库导出：<br>导出三个数据库为一个文件：<br>mysqldump -u root -p$1 -h$2  –databases ccnet-db  seahub-db seafile-db&gt; all.sql（命令参数携带密码和ip）<br>（执行的时候需要执行 ./export.sh 123456 localhost) 其中123456是数据库访问密码，localhost是数据库ip，localhost代表本地数据库<br>导出全部数据库（慎用,因为可能会导入其他系统（应用）的mysql）：<br>mysqldump -u root -p$1 -h$2  –events –ignore-table=mysql.events –all-databases &gt; all.sql</p>
+<p>2.导入<br>新建import.sh<br>chmod +x import.sh<br>文件内容：</p>
+<p>#!/bin/bash</p>
+<p>#导入数据库的过程需要一段时间</p>
+<p>mysql -uroot -p –password=123456 -e “source ccnet-db.sql;” &amp;&amp; echo “Import database successfully!”      #(-e后边的是数据库语句，每条数据库语句后面要跟；）<br>mysql -uroot -p$1-e “source ccnet-db.sql;” &amp;&amp; echo “Import database successfully!” </p>
+<p><a href="http://www.cnblogs.com/feichexia/p/MysqlDataBackup.html" target="_blank" rel="external">http://www.cnblogs.com/feichexia/p/MysqlDataBackup.html</a><br><a href="http://www.360doc.com/content/15/0128/09/14187254_444374564.shtml" target="_blank" rel="external">http://www.360doc.com/content/15/0128/09/14187254_444374564.shtml</a></p>
+<p><a href="http://blog.csdn.net/shellching/article/details/8129687" target="_blank" rel="external">http://blog.csdn.net/shellching/article/details/8129687</a></p>
+<p>脚本增加对参数的判断：<br><a href="http://www.jb51.net/article/56549.htm" target="_blank" rel="external">http://www.jb51.net/article/56549.htm</a><br>    if [ $# != 2 ] ; then<br>    echo “ USAGE: Two parameters are needed!”<br>    echo “FORMAT: $0 [mysqldb_password][mysqldb_ip]”<br>    echo “  e.g.: $0 123456 localhost”<br>    exit 1;<br>    fi<br>上述代码判断参数个数不为2时，给出usgae提示。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/16/how to build es6 in Webstorm/" data-id="ciocob7nt00063ovt0pji9jv7" class="article-share-link">Delen</a>
+      <a data-url="http://kusokaiser.github.io/2016/05/18/mysql导入和导出/" data-id="ciocob7nh00013ovtfp80d9rm" class="article-share-link">Delen</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/es6/">es6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webstorm/">webstorm</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
 
     </footer>
   </div>
@@ -123,19 +118,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/03/28/python 在不同层级目录import 模块的方法/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Nieuwer</strong>
-      <div class="article-nav-title">
-        
-          python 在不同层级目录import 模块的方法
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/03/02/newArticle/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/04/07/RabbitMQ/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Ouder</strong>
-      <div class="article-nav-title">hexo+github个人博客搭建</div>
+      <div class="article-nav-title">RabbitMQ相关笔记</div>
     </a>
   
 </nav>
@@ -146,7 +132,7 @@
 
   <section id="comments">
     <!-- ��˵���ۿ� start -->
-    <div class="ds-thread" data-thread-key="[post]-how to build es6 in Webstorm" data-title="webstorm如何配置使用es6" data-url="http://kusokaiser.github.io/2016/03/16/how to build es6 in Webstorm/"></div>
+    <div class="ds-thread" data-thread-key="[post]-mysql导入和导出" data-title="mysql数据库导出和导入" data-url="http://kusokaiser.github.io/2016/05/18/mysql导入和导出/"></div>
     <!-- ��˵���ۿ� end -->
     <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
     <script type="text/javascript">

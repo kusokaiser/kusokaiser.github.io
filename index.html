@@ -53,7 +53,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kusokaiser.github.io"></form>
@@ -182,10 +182,113 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2017/05/18/React开发技巧-生命周期实战技巧/" data-id="cj45d4n7r0000a0pcvn8p93cr" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2017/05/18/React开发技巧-生命周期实战技巧/" data-id="cj45d7jjh0003t4pc993j9guk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="[post]-webpack2.0" class="article article-type-[post]" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/14/webpack2.0/" class="article-date">
+  <time datetime="2017-04-14T08:16:50.000Z" itemprop="datePublished">2017-04-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/14/webpack2.0/">Webpack2.0</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="webpack2-0有哪些变化？能给我们带来什么？为什么要升级？"><a href="#webpack2-0有哪些变化？能给我们带来什么？为什么要升级？" class="headerlink" title="webpack2.0有哪些变化？能给我们带来什么？为什么要升级？"></a>webpack2.0有哪些变化？能给我们带来什么？为什么要升级？</h3><hr>
+<p><strong>变化</strong></p>
+<p><strong><em>1.webpack2增加对es6模块的支持，也就是说webpack可以识别import和export了，不需要转换成commonJS的格式，例如我们的懒加载方式可以改为：</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function onClick() &#123;</span><br><span class="line">  import(&quot;./module&quot;).then(module =&gt; &#123;</span><br><span class="line">    return module.default;</span><br><span class="line">  &#125;).catch(err =&gt; &#123;</span><br><span class="line">    console.log(&quot;Chunk loading failed&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并且，如果加载 chunk 失败，我们可以进行处理，因为现在它基于promise，如果你想让webpack解析这些es6的符号，那么需要做如下配置:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;presets&quot;: [</span><br><span class="line">    [&quot;es2015&quot;, &#123; &quot;modules&quot;: false &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><em>2.resolve的extension中不需要再传一个空字符串了</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">resolve: &#123;</span><br><span class="line">    extensions: [&apos;.js&apos;, &apos;.jsx&apos;, &apos;.json&apos;, &apos;.es6.js&apos;],</span><br><span class="line">    alias: &#123;</span><br><span class="line">        &apos;backbone&apos;: path.resolve(process.cwd(), &apos;res/js/lib/backbone/backbone&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>其实，不仅仅是不需要了，而是不可以再传了，否则会报错……</p>
+<p><strong><em>3.webpack中的resolve解析规则</em></strong></p>
+<p>解析路径分为三类，绝对路径、相对路径、模块路径，前两个好理解，模块路径是根据什么去查找的呢，原来在resolve的配置中有一个modules配置项，默认为node_modules，如果不进行配置，则webpack会去node_modules目录下查找对应的包名去解析，我们有时会在工程目录下建一个lib路径，下面存放一些可能定制化的一些组件，需求是让webpack优先查找我们工程下的定制组件，如果不存在，则再去node_modules里去查找解析，应对这种情况，我们可以如下配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">resolve:&#123;</span><br><span class="line">    modules:[path.resolve(__dirname, &quot;src&quot;), &quot;node_modules&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，优先级按照数组中的顺序执行</p>
+<p><strong><em>4.modules中的loaders:</em></strong></p>
+<ul>
+<li><p>链式调用：<br>在 v1 版本中，loaders 通常被用!连写。这一写法在新版中只在使用旧的module.loader时有效。在v2版本中，链式调用被放到了数组中：<br>use:[“style-loader”,”css-loader”,”less-loader”]<br>链式调用的执行原理是，上一个loader的输出被作为下一个loader的输入</p>
+</li>
+<li><p>取消了自动添加-loader的功能</p>
+</li>
+</ul>
+<p><strong><em>5.extractTextPlugin大变化</em></strong></p>
+<p>ExtractTextPlugin 1.0.0 不能在webpackv2下工作。你需要明确地安装ExtractTextPlugin v2<br>ExtractTextPlugin.extract</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">module: &#123;</span><br><span class="line">  rules: [</span><br><span class="line">    &#123;</span><br><span class="line">      test: /.css$/,</span><br><span class="line">-      loader: ExtractTextPlugin.extract(&quot;style-loader&quot;, &quot;css-loader&quot;, &#123; publicPath: &quot;/dist&quot; &#125;)</span><br><span class="line">+      use: ExtractTextPlugin.extract(&#123;</span><br><span class="line">+        fallback: &quot;style-loader&quot;,</span><br><span class="line">+        use: &quot;css-loader&quot;,</span><br><span class="line">+        publicPath: &quot;/dist&quot;</span><br><span class="line">+      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>new ExtractTextPlugin({options})</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">-  new ExtractTextPlugin(&quot;bundle.css&quot;, &#123; allChunks: true, disable: false &#125;)</span><br><span class="line">+  new ExtractTextPlugin(&#123;</span><br><span class="line">+    filename: &quot;bundle.css&quot;,</span><br><span class="line">+    disable: false,</span><br><span class="line">+    allChunks: true</span><br><span class="line">+  &#125;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p><strong><em>6.对CLI参数的限制</em></strong></p>
+<p>webpackV2版本不再允许用户传递一些自定义参数了，例如之前的–mockport已经不再允许了。webpackV2版本维护了一个命令参数对照表（schema），在执行webpack命令时，webpack会挨个参数的去查看是否在schema中。虽然不能自定义命令，但现在提供了一个接口 来传递参数给配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack --env.mockport 8888</span><br></pre></td></tr></table></figure>
+<p><strong>能给我们带来什么</strong></p>
+<p><strong><em>tree shaking</em></strong><br>涉及知识点：</p>
+<ul>
+<li><p>es6模块静态结构</p>
+<p>  ES6模块系统中，模块不是对象，而是声明式的代码集合，模块导入定义也是声明式的。import是在编译时resolve的——即在脚本开始执行之前。事实上，各个模块之间的依赖关系图所涉及的所有imports和exports都是在执行之前resolve好了。那么这么说来如果我们需要按需加载模块，es6是不是就不能完成了呢？其实不是的，es6也有模块动态加载的API。</p>
+<p>  es6的静态特性和commonJS的动态特性相比有哪些区别：</p>
+<ul>
+<li>只能作为模块顶层的语句出现，不能出现在 function 里面或是 if 里面。</li>
+<li>import 的模块名只能是字符串常量。</li>
+<li>不管 import 的语句出现的位置在哪里，在模块初始化的时候所有的 import 都必须已经导入完成。换句话说，ES6 imports are hoisted。</li>
+<li><p>import binding 是 immutable 的，类似 const。比如说你不能 import { a } from ‘./a’ 然后给 a 赋值个其他什么东西。</p>
+<p>这些设计虽然使得灵活性不如 CommonJS 的 require，但却保证了 ES6 modules 的依赖关系是确定 (deterministic) 的，和运行时的状态无关，从而也就保证了 ES6 modules 是可以进行可靠的静态分析的。</p>
+</li>
+</ul>
+</li>
+<li><p>es6模块动态加载（实现懒加载）</p>
+<p>  使用System.import来实现按需加载</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">System.import(&apos;./B&apos;).then(</span><br><span class="line">   moduleB=&gt;&#123;</span><br><span class="line">        let b = new moduleB();</span><br><span class="line">        b.render();</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>  每次import，webpack都会新建一个bundle，和之前的require类似，它返回的是一个promise，可以捕获错误进行处理：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">System.import(&apos;./B&apos;).then(</span><br><span class="line">   moduleB=&gt;&#123;</span><br><span class="line">        let b = new moduleB();</span><br><span class="line">        b.render();</span><br><span class="line">    &#125;</span><br><span class="line">).catch(err =&gt; &#123;</span><br><span class="line">    console.log(err);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>presets为什么必须要写成[[“es2015”,{modules:false}]]数组嵌套的形式</p>
+</li>
+<li><p>tree shaking原理（<a href="http://www.open-open.com/lib/view/open1483144941161.html" target="_blank" rel="external">相关文章</a>）</p>
+<p>  实际上是无用代码移除（DCE, dead code elimination）的一种实现方式，但tree shaking不能消除带有副作用的代码，什么是副作用，例如上述文章示例2</p>
+</li>
+</ul>
+<p><strong><em>Webpack可视化资源分析工具</em></strong></p>
+<ul>
+<li><p>webpack chart</p>
+<p>  <a href="http://alexkuz.github.io/webpack-chart/" target="_blank" rel="external">demo地址</a></p>
+</li>
+<li><p>webpack-visualizer</p>
+<p>  <a href="http://chrisbateman.github.io/webpack-visualizer/" target="_blank" rel="external">demo地址</a></p>
+</li>
+</ul>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kusokaiser.github.io/2017/04/14/webpack2.0/" data-id="cj45d7jjq000bt4pcdq1zgmvj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
 
     </footer>
   </div>
@@ -232,7 +335,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/05/18/mysql导入和导出/" data-id="cj45d4n840003a0pczbtirb01" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/05/18/mysql导入和导出/" data-id="cj45d7jjm0007t4pczq1jiyx3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
@@ -450,7 +553,7 @@ def stop_monitor(self):
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/04/07/RabbitMQ/" data-id="cj45d4n870006a0pczsgqb1m7" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/04/07/RabbitMQ/" data-id="cj45d7jj50000t4pcoupvixv4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rabbitMQ/">rabbitMQ</a></li></ul>
@@ -498,7 +601,7 @@ def stop_monitor(self):
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/04/07/windows下搭建react-native开发环境/" data-id="cj45d4n8a0009a0pcdqz0aiim" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/04/07/windows下搭建react-native开发环境/" data-id="cj45d7jka000qt4pcixsr1ljq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react-native/">react-native</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/移动web/">移动web</a></li></ul>
@@ -539,7 +642,7 @@ def stop_monitor(self):
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/28/python 在不同层级目录import 模块的方法/" data-id="cj45d4n8c000ba0pcgexmn4kx" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/28/python 在不同层级目录import 模块的方法/" data-id="cj45d7jjn0008t4pcabbq1rc2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
@@ -584,7 +687,7 @@ def stop_monitor(self):
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/16/how to build es6 in Webstorm/" data-id="cj45d4n850004a0pcoltjhjya" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/16/how to build es6 in Webstorm/" data-id="cj45d7jjb0001t4pc0r5e2fpp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/es6/">es6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webstorm/">webstorm</a></li></ul>
@@ -608,11 +711,11 @@ def stop_monitor(self):
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" rel="gallery_cj45d4n890008a0pctgxnzhio">
+      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" rel="gallery_cj45d7jjk0006t4pc0bjbyahm">
         <img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" itemprop="image">
       </a>
     
-      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" rel="gallery_cj45d4n890008a0pctgxnzhio">
+      <a class="article-gallery-img fancybox" href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" rel="gallery_cj45d7jjk0006t4pc0bjbyahm">
         <img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" itemprop="image">
       </a>
     
@@ -640,7 +743,7 @@ def stop_monitor(self):
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/02/newArticle/" data-id="cj45d4n890008a0pctgxnzhio" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/02/newArticle/" data-id="cj45d7jjk0006t4pc0bjbyahm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
@@ -687,7 +790,7 @@ def stop_monitor(self):
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kusokaiser.github.io/2016/03/02/hello-world/" data-id="cj45d4n7x0001a0pc1c8n38hz" class="article-share-link">Share</a>
+      <a data-url="http://kusokaiser.github.io/2016/03/02/hello-world/" data-id="cj45d7jji0004t4pc2f7teuwj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -709,7 +812,7 @@ def stop_monitor(self):
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rabbitMQ/">rabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react-native/">react-native</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移动web/">移动web</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rabbitMQ/">rabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react-native/">react-native</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移动web/">移动web</a></li></ul>
     </div>
   </div>
 
@@ -719,16 +822,16 @@ def stop_monitor(self):
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/es6/" style="font-size: 10px;">es6</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/rabbitMQ/" style="font-size: 10px;">rabbitMQ</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/react-native/" style="font-size: 10px;">react-native</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/移动web/" style="font-size: 10px;">移动web</a>
+      <a href="/tags/es6/" style="font-size: 10px;">es6</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/rabbitMQ/" style="font-size: 10px;">rabbitMQ</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/react-native/" style="font-size: 10px;">react-native</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/移动web/" style="font-size: 10px;">移动web</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Arkiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li></ul>
     </div>
   </div>
 
@@ -736,12 +839,16 @@ def stop_monitor(self):
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Siste innlegg</h3>
     <div class="widget">
       <ul>
         
           <li>
             <a href="/2017/05/18/React开发技巧-生命周期实战技巧/">React生命周期原理和实战技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/14/webpack2.0/">Webpack2.0</a>
           </li>
         
           <li>
@@ -754,10 +861,6 @@ def stop_monitor(self):
         
           <li>
             <a href="/2016/04/07/windows下搭建react-native开发环境/">windows下搭建react-native开发环境</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/28/python 在不同层级目录import 模块的方法/">python 在不同层级目录import 模块的方法</a>
           </li>
         
       </ul>

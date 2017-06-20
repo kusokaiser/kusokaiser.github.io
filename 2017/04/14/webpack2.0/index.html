@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Webpack2.0 | Kaiser&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="webpack2.0有哪些变化？能给我们带来什么？为什么要升级？
+变化
+1.webpack2增加对es6模块的支持，也就是说webpack可以识别import和export了，不需要转换成commonJS的格式，例如我们的懒加载方式可以改为：
+1234567function onClick() &amp;#123;  import(&amp;quot;./module&amp;quot;).then(module =&amp;g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Webpack2.0">
+<meta property="og:url" content="http://kusokaiser.github.io/2017/04/14/webpack2.0/index.html">
+<meta property="og:site_name" content="Kaiser's blog">
+<meta property="og:description" content="webpack2.0有哪些变化？能给我们带来什么？为什么要升级？
+变化
+1.webpack2增加对es6模块的支持，也就是说webpack可以识别import和export了，不需要转换成commonJS的格式，例如我们的懒加载方式可以改为：
+1234567function onClick() &amp;#123;  import(&amp;quot;./module&amp;quot;).then(module =&amp;g">
+<meta property="og:updated_time" content="2017-06-20T09:25:54.818Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Webpack2.0">
+<meta name="twitter:description" content="webpack2.0有哪些变化？能给我们带来什么？为什么要升级？
+变化
+1.webpack2增加对es6模块的支持，也就是说webpack可以识别import和export了，不需要转换成commonJS的格式，例如我们的懒加载方式可以改为：
+1234567function onClick() &amp;#123;  import(&amp;quot;./module&amp;quot;).then(module =&amp;g">
+  
+    <link rel="alternate" href="/atom.xml" title="Kaiser&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Kaiser&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kusokaiser.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="[post]-webpack2.0" class="article article-type-[post]" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/14/webpack2.0/" class="article-date">
+  <time datetime="2017-04-14T08:16:50.000Z" itemprop="datePublished">2017-04-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Webpack2.0
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="webpack2-0有哪些变化？能给我们带来什么？为什么要升级？"><a href="#webpack2-0有哪些变化？能给我们带来什么？为什么要升级？" class="headerlink" title="webpack2.0有哪些变化？能给我们带来什么？为什么要升级？"></a>webpack2.0有哪些变化？能给我们带来什么？为什么要升级？</h3><hr>
+<p><strong>变化</strong></p>
+<p><strong><em>1.webpack2增加对es6模块的支持，也就是说webpack可以识别import和export了，不需要转换成commonJS的格式，例如我们的懒加载方式可以改为：</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function onClick() &#123;</span><br><span class="line">  import(&quot;./module&quot;).then(module =&gt; &#123;</span><br><span class="line">    return module.default;</span><br><span class="line">  &#125;).catch(err =&gt; &#123;</span><br><span class="line">    console.log(&quot;Chunk loading failed&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并且，如果加载 chunk 失败，我们可以进行处理，因为现在它基于promise，如果你想让webpack解析这些es6的符号，那么需要做如下配置:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;presets&quot;: [</span><br><span class="line">    [&quot;es2015&quot;, &#123; &quot;modules&quot;: false &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><em>2.resolve的extension中不需要再传一个空字符串了</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">resolve: &#123;</span><br><span class="line">    extensions: [&apos;.js&apos;, &apos;.jsx&apos;, &apos;.json&apos;, &apos;.es6.js&apos;],</span><br><span class="line">    alias: &#123;</span><br><span class="line">        &apos;backbone&apos;: path.resolve(process.cwd(), &apos;res/js/lib/backbone/backbone&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>其实，不仅仅是不需要了，而是不可以再传了，否则会报错……</p>
+<p><strong><em>3.webpack中的resolve解析规则</em></strong></p>
+<p>解析路径分为三类，绝对路径、相对路径、模块路径，前两个好理解，模块路径是根据什么去查找的呢，原来在resolve的配置中有一个modules配置项，默认为node_modules，如果不进行配置，则webpack会去node_modules目录下查找对应的包名去解析，我们有时会在工程目录下建一个lib路径，下面存放一些可能定制化的一些组件，需求是让webpack优先查找我们工程下的定制组件，如果不存在，则再去node_modules里去查找解析，应对这种情况，我们可以如下配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">resolve:&#123;</span><br><span class="line">    modules:[path.resolve(__dirname, &quot;src&quot;), &quot;node_modules&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，优先级按照数组中的顺序执行</p>
+<p><strong><em>4.modules中的loaders:</em></strong></p>
+<ul>
+<li><p>链式调用：<br>在 v1 版本中，loaders 通常被用!连写。这一写法在新版中只在使用旧的module.loader时有效。在v2版本中，链式调用被放到了数组中：<br>use:[“style-loader”,”css-loader”,”less-loader”]<br>链式调用的执行原理是，上一个loader的输出被作为下一个loader的输入</p>
+</li>
+<li><p>取消了自动添加-loader的功能</p>
+</li>
+</ul>
+<p><strong><em>5.extractTextPlugin大变化</em></strong></p>
+<p>ExtractTextPlugin 1.0.0 不能在webpackv2下工作。你需要明确地安装ExtractTextPlugin v2<br>ExtractTextPlugin.extract</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">module: &#123;</span><br><span class="line">  rules: [</span><br><span class="line">    &#123;</span><br><span class="line">      test: /.css$/,</span><br><span class="line">-      loader: ExtractTextPlugin.extract(&quot;style-loader&quot;, &quot;css-loader&quot;, &#123; publicPath: &quot;/dist&quot; &#125;)</span><br><span class="line">+      use: ExtractTextPlugin.extract(&#123;</span><br><span class="line">+        fallback: &quot;style-loader&quot;,</span><br><span class="line">+        use: &quot;css-loader&quot;,</span><br><span class="line">+        publicPath: &quot;/dist&quot;</span><br><span class="line">+      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>new ExtractTextPlugin({options})</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">-  new ExtractTextPlugin(&quot;bundle.css&quot;, &#123; allChunks: true, disable: false &#125;)</span><br><span class="line">+  new ExtractTextPlugin(&#123;</span><br><span class="line">+    filename: &quot;bundle.css&quot;,</span><br><span class="line">+    disable: false,</span><br><span class="line">+    allChunks: true</span><br><span class="line">+  &#125;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p><strong><em>6.对CLI参数的限制</em></strong></p>
+<p>webpackV2版本不再允许用户传递一些自定义参数了，例如之前的–mockport已经不再允许了。webpackV2版本维护了一个命令参数对照表（schema），在执行webpack命令时，webpack会挨个参数的去查看是否在schema中。虽然不能自定义命令，但现在提供了一个接口 来传递参数给配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack --env.mockport 8888</span><br></pre></td></tr></table></figure>
+<p><strong>能给我们带来什么</strong></p>
+<p><strong><em>tree shaking</em></strong><br>涉及知识点：</p>
+<ul>
+<li><p>es6模块静态结构</p>
+<p>  ES6模块系统中，模块不是对象，而是声明式的代码集合，模块导入定义也是声明式的。import是在编译时resolve的——即在脚本开始执行之前。事实上，各个模块之间的依赖关系图所涉及的所有imports和exports都是在执行之前resolve好了。那么这么说来如果我们需要按需加载模块，es6是不是就不能完成了呢？其实不是的，es6也有模块动态加载的API。</p>
+<p>  es6的静态特性和commonJS的动态特性相比有哪些区别：</p>
+<ul>
+<li>只能作为模块顶层的语句出现，不能出现在 function 里面或是 if 里面。</li>
+<li>import 的模块名只能是字符串常量。</li>
+<li>不管 import 的语句出现的位置在哪里，在模块初始化的时候所有的 import 都必须已经导入完成。换句话说，ES6 imports are hoisted。</li>
+<li><p>import binding 是 immutable 的，类似 const。比如说你不能 import { a } from ‘./a’ 然后给 a 赋值个其他什么东西。</p>
+<p>这些设计虽然使得灵活性不如 CommonJS 的 require，但却保证了 ES6 modules 的依赖关系是确定 (deterministic) 的，和运行时的状态无关，从而也就保证了 ES6 modules 是可以进行可靠的静态分析的。</p>
+</li>
+</ul>
+</li>
+<li><p>es6模块动态加载（实现懒加载）</p>
+<p>  使用System.import来实现按需加载</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">System.import(&apos;./B&apos;).then(</span><br><span class="line">   moduleB=&gt;&#123;</span><br><span class="line">        let b = new moduleB();</span><br><span class="line">        b.render();</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>  每次import，webpack都会新建一个bundle，和之前的require类似，它返回的是一个promise，可以捕获错误进行处理：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">System.import(&apos;./B&apos;).then(</span><br><span class="line">   moduleB=&gt;&#123;</span><br><span class="line">        let b = new moduleB();</span><br><span class="line">        b.render();</span><br><span class="line">    &#125;</span><br><span class="line">).catch(err =&gt; &#123;</span><br><span class="line">    console.log(err);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>presets为什么必须要写成[[“es2015”,{modules:false}]]数组嵌套的形式</p>
+</li>
+<li><p>tree shaking原理（<a href="http://www.open-open.com/lib/view/open1483144941161.html" target="_blank" rel="external">相关文章</a>）</p>
+<p>  实际上是无用代码移除（DCE, dead code elimination）的一种实现方式，但tree shaking不能消除带有副作用的代码，什么是副作用，例如上述文章示例2</p>
+</li>
+</ul>
+<p><strong><em>Webpack可视化资源分析工具</em></strong></p>
+<ul>
+<li><p>webpack chart</p>
+<p>  <a href="http://alexkuz.github.io/webpack-chart/" target="_blank" rel="external">demo地址</a></p>
+</li>
+<li><p>webpack-visualizer</p>
+<p>  <a href="http://chrisbateman.github.io/webpack-visualizer/" target="_blank" rel="external">demo地址</a></p>
+</li>
+</ul>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kusokaiser.github.io/2017/04/14/webpack2.0/" data-id="cj45d7jjq000bt4pcdq1zgmvj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/05/18/React开发技巧-生命周期实战技巧/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          React生命周期原理和实战技巧
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/18/mysql导入和导出/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">mysql数据库导出和导入</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <!-- ��˵���ۿ� start -->
+    <div class="ds-thread" data-thread-key="[post]-webpack2.0" data-title="Webpack2.0" data-url="http://kusokaiser.github.io/2017/04/14/webpack2.0/"></div>
+    <!-- ��˵���ۿ� end -->
+    <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'kusokaiser'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- ��˵����JS���� end -->
+  </section>
+  </section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rabbitMQ/">rabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react-native/">react-native</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移动web/">移动web</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/es6/" style="font-size: 10px;">es6</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/rabbitMQ/" style="font-size: 10px;">rabbitMQ</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/react-native/" style="font-size: 10px;">react-native</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/移动web/" style="font-size: 10px;">移动web</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Arkiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Siste innlegg</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/05/18/React开发技巧-生命周期实战技巧/">React生命周期原理和实战技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/14/webpack2.0/">Webpack2.0</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/18/mysql导入和导出/">mysql数据库导出和导入</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/07/RabbitMQ/">RabbitMQ相关笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/07/windows下搭建react-native开发环境/">windows下搭建react-native开发环境</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Kuso Kaiser<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

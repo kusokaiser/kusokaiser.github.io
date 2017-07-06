@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>React相关技巧和实践 | Kaiser&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="React相关技巧和实践
+1.setState回调react的setState是一个异步方法，一般会在render的时候生效，如果在某些情况下想要在改变state同时进行类似刷表的操作，例如：
+componentWillReceiveProps(nextProps){
+        this.setState({
+            level: nexprops.level">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React相关技巧和实践">
+<meta property="og:url" content="http://kusokaiser.github.io/2016/07/07/20170707-React相关技巧和实践-郭琦/index.html">
+<meta property="og:site_name" content="Kaiser's blog">
+<meta property="og:description" content="React相关技巧和实践
+1.setState回调react的setState是一个异步方法，一般会在render的时候生效，如果在某些情况下想要在改变state同时进行类似刷表的操作，例如：
+componentWillReceiveProps(nextProps){
+        this.setState({
+            level: nexprops.level">
+<meta property="og:image" content="http://i.imgur.com/3tqrwK2.jpg">
+<meta property="og:image" content="http://i.imgur.com/NlZjnbQ.png">
+<meta property="og:image" content="http://i.imgur.com/5aMcL5y.png">
+<meta property="og:image" content="http://i.imgur.com/mfXl6KG.png">
+<meta property="og:updated_time" content="2017-07-06T09:05:07.270Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React相关技巧和实践">
+<meta name="twitter:description" content="React相关技巧和实践
+1.setState回调react的setState是一个异步方法，一般会在render的时候生效，如果在某些情况下想要在改变state同时进行类似刷表的操作，例如：
+componentWillReceiveProps(nextProps){
+        this.setState({
+            level: nexprops.level">
+<meta name="twitter:image" content="http://i.imgur.com/3tqrwK2.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Kaiser&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Kaiser&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kusokaiser.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="[post]-20170707-React相关技巧和实践-郭琦" class="article article-type-[post]" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/07/20170707-React相关技巧和实践-郭琦/" class="article-date">
+  <time datetime="2016-07-07T07:16:50.000Z" itemprop="datePublished">2016-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      React相关技巧和实践
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="React相关技巧和实践"><a href="#React相关技巧和实践" class="headerlink" title="React相关技巧和实践"></a>React相关技巧和实践</h1><p><img src="http://i.imgur.com/3tqrwK2.jpg" alt=""></p>
+<h3 id="1-setState回调"><a href="#1-setState回调" class="headerlink" title="1.setState回调"></a>1.setState回调</h3><p>react的setState是一个异步方法，一般会在render的时候生效，如果在某些情况下想要在改变state同时进行类似刷表的操作，例如：</p>
+<pre><code>componentWillReceiveProps(nextProps){
+        this.setState({
+            level: nexprops.level
+       });
+       this.reloadTable();
+}
+
+reloadTable(){
+    const level = this.state;//此时level还是之前的level，在componentWillReceiveProps中改变的state还没有生效
+}
+</code></pre><p>这种情况在reloadTable中的level还是之前的level，在componentWillReceiveProps中改变的state还没有生效，解决这个问题的方法有很多种方式，比如使用一些全局变量，例如this.queryLevel来缓存改变的状态，facebook官方也推荐了两种方式，</p>
+<pre><code>    setState() does not always immediately update the component. It may batch or defer the update until later. 
+This makes reading this.state right after calling setState() a potential pitfall. Instead, use componentDidUpdate 
+or a setState callback (setState(updater, callback)), either of which are guaranteed to fire after the update has 
+been applied. If you need to set the state based on the previous state, read about the updater argument below.
+</code></pre><p>其中，使用setState回调是我个人比较推荐的一种方法是在setState里加回调函数，如下：</p>
+<pre><code>componentWillReceiveProps(nextProps){
+    this.setState({
+        level: nexprops.level
+    },()=&gt;{this,reloadTable()});
+}
+
+reloadTable(){
+    const level = this.state;//此时level为新的level
+}
+</code></pre><p>setState中的回调函数可以保证在本次state更改后才会执行。</p>
+<h3 id="2-为什么我们的组件绑定方法时要加上bind-this"><a href="#2-为什么我们的组件绑定方法时要加上bind-this" class="headerlink" title="2.为什么我们的组件绑定方法时要加上bind(this)"></a>2.为什么我们的组件绑定方法时要加上bind(this)</h3><p>JavaScript 的 this 关键字会造成诸多困扰。由于 JavaScript 不具备如 Java 等语言的严格类模型，因而除非是在处理回调，否则代码中的this 指向并不清晰。</p>
+<pre><code>class Buttons extends Component{
+    //render
+    &lt;span styleName=&quot;inline-item&quot;&gt;
+        &lt;Select value=&quot;修改状态&quot; styleName=&quot;sel-width&quot; onSelect={this.statusChange.bind(this)} &gt;
+            {this.statusOptions()}
+        &lt;/Select&gt;
+    &lt;/span&gt;
+
+    statusChange(value){
+        //这里的this并没有指向class本身，而是指向了点击的那个option
+        let me = this, selectArr = this.selectArr;
+        if (selectArr.length &gt; 0) {
+            let params = [];
+            for (let i = 0; i &lt; selectArr.length; i++) {
+                params.push([&quot;planIdArr&quot;, me.getCpcPlanIdArr()[i]]);
+            }
+            switch (value) {
+                case &apos;0&apos; :
+                    me._doStatus(0,params);
+                    break;
+                case &apos;1&apos; :
+                    me._doStatus(1,params);
+                    break;
+                case &apos;2&apos; :
+                    me._doDel(params);
+                    break;
+            }
+        }
+        return false;
+    }
+}
+</code></pre><p>在原来 React.createClass 中， statusChange() 在onSelect事件触发的时候，会自动绑定到Buttons实例上，这时候该函数的this的上下文就是该实例。不过在ES6的class的写法(extends React.Component)中，Facebook取消了自动绑定，实例化Buttons后，statusChange()的上下文是select的支撑实例（ backing instance ）</p>
+<ul>
+<li><p>支撑实例</p>
+<p>  ReactDOM.render() 通过将 React 元素渲染到现有的 DOM 元素中来生成一个组件实例，该实例可以访问组件类中定义的方法，但组件实例不是真实 DOM 节点。渲染组件实例产生的真实DOM元素被称为<strong>组件支撑实例</strong>，访问它的主要方式是使用ReactDOM.findDOMNode()。</p>
+</li>
+</ul>
+<p>所以，我们发现，通过es6的方式继承React.Component的方式来定义一个类，是无法自动绑定上下文的，那么如何解决这个问题？</p>
+<ul>
+<li><p>bind(this)</p>
+<p>  可以在class声明中的constructor()函数中，使用this.statusChange = this.statusChange.bind(this);该方法是一个bind()绑定，多次使用。在该方法中，我们在声明该实例后，可以在该实例任何地方使用 statusChange() 函数，并且该 statusChange() 函数的this的上下文都是Buttons实例对象。</p>
+<p>  除此我们也可以在具体使用该函数的地方绑定this的上下文到Buttons实例对象，代码如下</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Select value=&quot;修改状态&quot; styleName=&quot;sel-width&quot; onSelect=&#123;this.statusChange.bind(this)&#125; &gt;</span><br><span class="line">		&#123;this.statusOptions()&#125;</span><br><span class="line">&lt;/Select&gt;</span><br></pre></td></tr></table></figure>
+<p>  这种方法需要我们每次使用bind()函数绑定到组件对象上。</p>
+</li>
+<li><p>es6箭头函数</p>
+<p>  es6中新加入了箭头函数=&gt;，箭头函数除了方便之外还有而一个特征就是会将函数的this绑定到其定义时所在的上下文。这个特征也可以帮助我们解决这个问题。使用方式有2种：</p>
+<p>  第一种，在定义方法时使用箭头函数</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">statusChange = ()=&gt;&#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  第二种，在组件属性上使用箭头函数</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Select value=&quot;修改状态&quot; styleName=&quot;sel-width&quot; onSelect=&#123;()=&gt;this.statusChange()&#125; &gt;</span><br><span class="line">		&#123;this.statusOptions()&#125;</span><br><span class="line">&lt;/Select&gt;</span><br></pre></td></tr></table></figure>
+<p>  这样this.handleClick() 的上下文就会被绑定到LikeButton的实例对象上。个人认为，使用箭头函数使得JavaScript更加接近面向对象的编程风格。</p>
+</li>
+</ul>
+<h3 id="3-优化尝试"><a href="#3-优化尝试" class="headerlink" title="3.优化尝试"></a>3.优化尝试</h3><p>之前讲到，react架构的性能优化，大多都是通过组件的shouldComponentUpdate来进行的，很多情况是通过shallowEqual对比新旧的state来判断是否需要更新，因为shallowEaqual是浅层判断，对于复杂的props数据结构有一定的隐患。在我们旭日新版中，由于我们的hash带上了一个table参数，表示当前所在的列表，那么我们完全可以利用这个参数去做一些简单的优化，在每一个推广管理的列表中加入类似如下的内容：</p>
+<pre><code>shouldComponentUpdate(nextProps){
+    const {query} = nextProps.location;
+    const {table} = query;
+    return table === HASH_PARAM_TAP_IDEA;//只有当前在idea页面，才需要更新组件
+}
+</code></pre><p>这样，当进入关键词tab时，不会去无谓的更新创意列表，虽然react有dom diff，可以保证在绝大多数情况下，都不会做无谓的渲染dom的操作，但如果在shoulComponentUpdate这个周期阻止更新的话，可以避免执行componentWillUpdate，render,componentDidUpdate这几个方法的，尤其是render方法，有时候在render里可能会有一些运算逻辑。对计划、组、创意和关键词列表加了如上的shoulComponentUpdate后，效果如下所示：</p>
+<p>之前：<img src="http://i.imgur.com/NlZjnbQ.png" alt=""></p>
+<p>之后：<img src="http://i.imgur.com/5aMcL5y.png" alt=""></p>
+<p>在James·K·Nelson的一篇文章中介绍了关于何时使用shuoldComponentUpdate方法，通篇思想大致总结为以下几点：</p>
+<ul>
+<li><strong>添加shouldComponentUpdate方法一般都会拖慢组件的更新速度。</strong></li>
+<li><strong>如果render的返回值很小，但props是个大家伙，那自己写shouldComponentUpdate很可能不会带来什么好结果。</strong></li>
+<li><strong>使用shouldComponentUpdate得到的收益一般是微乎其微的。</strong></li>
+<li><strong>shouldComponentUpdate很难维护</strong></li>
+</ul>
+<p>那么什么时候需要shouldComponentUpdate？</p>
+<p>文章中写道<strong>只有经过测量，发现有了shouldComponentUpdate后组件的渲染速度确实有可察觉的提升，你才应该用它。</strong></p>
+<h3 id="4-warning引起的死循环问题"><a href="#4-warning引起的死循环问题" class="headerlink" title="4.warning引起的死循环问题"></a>4.warning引起的死循环问题</h3><p>在开发附加创意时遇到一个比较匪夷所思的问题:</p>
+<p>componentWillReceiveProps方法中如果有未定义的变量，会报出一个warning：<br><img src="http://i.imgur.com/mfXl6KG.png" alt=""><br>再搭配着loadTable方法中如下的写法：</p>
+<pre><code>//查表
+this.props.dispatch({type: ACTION_MANAGE_TABLE_MULTIPIC_LIST_DATA_SAGA, payload: this.getParams()});
+this.props.dispatch({type: ACTION_MANAGE_TABLE_MULTIPIC_COUNT_REQUEST_SUCCESS, payload: &apos;&apos;});
+</code></pre><p>会导致在table/index中出现死循环。具体见代码</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kusokaiser.github.io/2016/07/07/20170707-React相关技巧和实践-郭琦/" data-id="cj4s7julg0000topc5ug0lt4g" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/04/14/webpack2.0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Webpack2.0
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/18/mysql导入和导出/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">mysql数据库导出和导入</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <!-- ��˵���ۿ� start -->
+    <div class="ds-thread" data-thread-key="[post]-20170707-React相关技巧和实践-郭琦" data-title="React相关技巧和实践" data-url="http://kusokaiser.github.io/2016/07/07/20170707-React相关技巧和实践-郭琦/"></div>
+    <!-- ��˵���ۿ� end -->
+    <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'kusokaiser'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- ��˵����JS���� end -->
+  </section>
+  </section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rabbitMQ/">rabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react-native/">react-native</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webstorm/">webstorm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移动web/">移动web</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/es6/" style="font-size: 10px;">es6</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/rabbitMQ/" style="font-size: 10px;">rabbitMQ</a> <a href="/tags/react/" style="font-size: 15px;">react</a> <a href="/tags/react-native/" style="font-size: 10px;">react-native</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/webstorm/" style="font-size: 10px;">webstorm</a> <a href="/tags/移动web/" style="font-size: 10px;">移动web</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/05/18/React开发技巧-生命周期实战技巧/">React生命周期原理和实战技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/14/webpack2.0/">Webpack2.0</a>
+          </li>
+        
+          <li>
+            <a href="/2016/07/07/20170707-React相关技巧和实践-郭琦/">React相关技巧和实践</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/18/mysql导入和导出/">mysql数据库导出和导入</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/07/RabbitMQ/">RabbitMQ相关笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Kuso Kaiser<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
